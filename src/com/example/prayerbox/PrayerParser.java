@@ -56,6 +56,9 @@ public class PrayerParser {
 					else if(tagName.equalsIgnoreCase("request")) {
 						prayer.request = Html.fromHtml(parser.nextText()).toString();
 					}
+					else if(tagName.equalsIgnoreCase("name")){
+						prayer.author = parser.nextText();
+					}
 					else if(tagName.equalsIgnoreCase("date")){
 						prayer.date = parser.nextText();
 					}

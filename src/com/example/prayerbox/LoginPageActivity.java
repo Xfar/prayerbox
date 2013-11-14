@@ -9,8 +9,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -31,6 +34,8 @@ public class LoginPageActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.login_page, menu);
+        ActionBar bar = this.getActionBar();
+        bar.setTitle(R.string.prayer_list);
         return true;
     }
     
@@ -49,30 +54,40 @@ public class LoginPageActivity extends ListActivity {
     }
     
     private class GetData extends AsyncTask<String, Void, String>{
-    	private String result;
-    	@Override
-    	protected String doInBackground(String... params){
-    	    HttpPost httpMethod = new HttpPost("http://www.uwccf.ca/prayerbox/api/prayerproxy.php");
-            
-            DefaultHttpClient client =  new DefaultHttpClient();
-            result = null;
-            try {
-                HttpResponse response = client.execute(httpMethod);
-
-                HttpEntity entity = response.getEntity();
-                result = EntityUtils.toString(entity);
-                return result;
-                } catch (Exception e) {
-                e.printStackTrace();
-            }
+		private String result;
+		private ProgressDialog Dialog = new ProgressDialog(LoginPageActivity.this);
+		@Override
+		protected String doInBackground(String... params){
+		    HttpPost httpMethod = new HttpPost("http://www.uwccf.ca/prayerbox/api/prayerproxy.php");
+		    
+		    DefaultHttpClient client =  new DefaultHttpClient();
+		    result = null;
+		    try {
+		        HttpResponse response = client.execute(httpMethod);
+		
+		        HttpEntity entity = response.getEntity();
+		        result = EntityUtils.toString(entity);
+		        return result;
+		        } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 			return null;
-    	}
-    @Override
-    protected void onPostExecute(String result) {
-        PrayerParser pray_parser = new PrayerParser(result);
-        ArrayList<Prayer> prayer_list = pray_parser.parse();
-        PrayerAdapter prayerAdapter = new PrayerAdapter(LoginPageActivity.this,prayer_list);
-        setListAdapter(prayerAdapter);
-    }
- }
+		}
+    	
+	  @Override
+	    protected void onPreExecute()
+	    {
+	        Dialog.setMessage("Loading Requests...");
+	        Dialog.show();
+	    }
+	    	  
+	    @Override
+	    protected void onPostExecute(String result) {
+	        PrayerParser pray_parser = new PrayerParser(result);
+	        ArrayList<Prayer> prayer_list = pray_parser.parse();
+	        PrayerAdapter prayerAdapter = new PrayerAdapter(LoginPageActivity.this,prayer_list);
+	        setListAdapter(prayerAdapter);
+	        Dialog.dismiss();
+	    }
+	 }
 }

@@ -35,8 +35,19 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
                 // do whatever you want with your string and long
                 itemView.setText(item.subject);
             }
+            TextView authorView = (TextView) view.findViewById(R.id.author);
+            if(authorView!=null){
+            	authorView.setText(item.author);
+            }
             TextView date = (TextView) view.findViewById(R.id.date);
-            date.setText(item.date);
+            if(date!=null){
+            	date.setText(item.date);
+            }
+            TextView request = (TextView) view.findViewById(R.id.request);
+            if(request!=null){
+            	request.setText(item.request);
+            }
+           
          }
 
         return view;

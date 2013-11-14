@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   android:orientation="horizontal"
+<RelativeLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
    android:paddingTop="5sp"
@@ -8,18 +8,46 @@
    android:paddingRight="5sp"
    android:paddingBottom="5sp">
 
+   <LinearLayout android:orientation="horizontal"
+       			android:id="@+id/line"
+       			android:layout_width="match_parent"
+       			android:layout_height="fill_parent">
     <TextView
        android:id="@+id/label"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:textSize="20sp"
     />
+    
     <TextView
        android:id="@+id/date"
-       android:layout_width="fill_parent"
        android:gravity="right"
+	   android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:textSize="15sp"
-    />
-
-</LinearLayout> 
+    />       
+       
+   </LinearLayout>
+    
+    <TextView 
+       android:id="@+id/request"
+       android:textStyle="italic"
+       android:layout_below="@id/line"
+       android:layout_width="match_parent"
+       android:gravity="left"
+       android:maxLines="3"
+       android:layout_height="wrap_content"
+       android:textSize="12sp" />
+    
+    
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/request"
+    	android:id="@+id/author"
+    	android:gravity="left"
+    	android:textStyle="bold"
+    	android:textSize="12sp"/>
+    
+ </RelativeLayout>
