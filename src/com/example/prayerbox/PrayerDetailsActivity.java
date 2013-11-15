@@ -35,9 +35,17 @@ public class PrayerDetailsActivity extends Activity {
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
+			overridePendingTransition(0, R.anim.right_slide_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		this.finish();
+		overridePendingTransition(0, R.anim.right_slide_out);
+		return;
 	}
 
 }

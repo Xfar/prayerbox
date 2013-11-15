@@ -44,6 +44,7 @@ public class LoginPageActivity extends ListActivity {
 		Prayer item = (Prayer) getListAdapter().getItem(position);
 		String request = item.request;
 		String subject = item.subject;
+
 		Intent nextScreen = new Intent(getApplicationContext(),
 				PrayerDetailsActivity.class);
 
@@ -52,6 +53,7 @@ public class LoginPageActivity extends ListActivity {
 		nextScreen.putExtra("request", request);
 
 		startActivity(nextScreen);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.no_anim);
 	}
 
 	private class GetData extends AsyncTask<String, Void, String> {
