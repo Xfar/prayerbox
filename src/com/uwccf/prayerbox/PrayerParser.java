@@ -2,7 +2,11 @@ package com.uwccf.prayerbox;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.xml.sax.Parser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -24,7 +28,40 @@ public class PrayerParser {
 		}
 	}
 	
-	public ArrayList<Prayer> parse()
+	public List<NameValuePair> parseLogin(){
+		try{
+	        XmlPullParser parser = null;
+			parser = factory.newPullParser();
+			parser.setInput(new StringReader (m_content));
+			int eventType = 0;
+			List<NameValuePair> accountInfo = new ArrayList<NameValuePair>(2);
+			eventType = parser.getEventType();
+		    while (eventType != XmlPullParser.END_DOCUMENT) {
+		    	switch(eventType) {
+				// at start of document: START_DOCUMENT
+
+				// at start of a tag: START_TAG
+				case XmlPullParser.START_TAG:
+					// get tag name
+					String tagName = parser.getName();
+					if(tagName.equalsIgnoreCase("error")){
+						accountInfo.add(new BasicNameValuePair("error", parser.nextText()));
+					}
+					if(tagName.equalsIgnoreCase("session_id")) {
+						accountInfo.add(new BasicNameValuePair("session_id", parser.nextText()));
+					}
+		    	}
+		    	eventType = parser.next();}
+		    	return accountInfo;
+		}catch (Exception e){
+			 e.printStackTrace();
+			 return null;
+		}
+	    
+		
+	}
+	
+	public ArrayList<Prayer> parsePrayerList()
 	{
 		try
 		{
@@ -32,7 +69,6 @@ public class PrayerParser {
 			parser = factory.newPullParser();
 			parser.setInput(new StringReader (m_content));
 			ArrayList<Prayer> prayer_list = new ArrayList<Prayer>();
-			ArrayList<String> string_list = new ArrayList<String>();
 			int eventType = 0;
 			eventType = parser.getEventType();
 			Prayer prayer = null;
@@ -50,7 +86,6 @@ public class PrayerParser {
 						break;
 					}
 					else if(tagName.equalsIgnoreCase("subject")) {
-		//				string_list.add(parser.nextText());
 						prayer.subject = parser.nextText();
 					}
 					else if(tagName.equalsIgnoreCase("request")) {
