@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PrayerListActivity extends ListActivity {
 	public ArrayList<String> your_array_list;
@@ -32,7 +33,6 @@ public class PrayerListActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_page);
-
 		new GetData().execute("");
 	}
 
@@ -60,6 +60,10 @@ public class PrayerListActivity extends ListActivity {
 	            startActivity(intent);
 	            finish();
 	            return true;
+	        case R.id.action_addedit:
+	        	Intent intnt = new Intent(getApplicationContext(), PrayerAddEditActivity.class);
+	        	startActivity(intnt);
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -92,10 +96,9 @@ public class PrayerListActivity extends ListActivity {
 			HttpPost httpMethod = new HttpPost(
 					"http://www.uwccf.ca/prayerbox/api/prayerproxy.php");
 
-			DefaultHttpClient client = new DefaultHttpClient();
 			result = null;
 			try {
-				HttpResponse response = client.execute(httpMethod);
+				HttpResponse response = PrayerLoginActivity.client.execute(httpMethod);
 
 				HttpEntity entity = response.getEntity();
 				result = EntityUtils.toString(entity);

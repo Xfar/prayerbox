@@ -2,11 +2,12 @@ package com.uwccf.prayerbox;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.xml.sax.Parser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -28,13 +29,13 @@ public class PrayerParser {
 		}
 	}
 	
-	public List<NameValuePair> parseLogin(){
+	public HashMap<String, String> parseLogin(){
 		try{
 	        XmlPullParser parser = null;
 			parser = factory.newPullParser();
 			parser.setInput(new StringReader (m_content));
 			int eventType = 0;
-			List<NameValuePair> accountInfo = new ArrayList<NameValuePair>(2);
+			HashMap<String, String> accountInfo = new HashMap<String, String>();
 			eventType = parser.getEventType();
 		    while (eventType != XmlPullParser.END_DOCUMENT) {
 		    	switch(eventType) {
@@ -45,10 +46,10 @@ public class PrayerParser {
 					// get tag name
 					String tagName = parser.getName();
 					if(tagName.equalsIgnoreCase("error")){
-						accountInfo.add(new BasicNameValuePair("error", parser.nextText()));
+						accountInfo.put("error", parser.nextText());
 					}
 					if(tagName.equalsIgnoreCase("session_id")) {
-						accountInfo.add(new BasicNameValuePair("session_id", parser.nextText()));
+						accountInfo.put("session_id", parser.nextText());
 					}
 		    	}
 		    	eventType = parser.next();}

@@ -1,6 +1,7 @@
 package com.uwccf.prayerbox;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -37,7 +38,7 @@ import android.widget.Toast;
  * well.
  */
 public class PrayerLoginActivity extends Activity {
-
+	public static DefaultHttpClient client;
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
@@ -58,6 +59,7 @@ public class PrayerLoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SharedPreferences sharedPref = this.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+		client = new DefaultHttpClient();
 		if(sharedPref.contains("session_id")){
 			Intent intent = new Intent(getApplicationContext(),PrayerListActivity.class);
 			startActivity(intent);
@@ -216,7 +218,6 @@ public class PrayerLoginActivity extends Activity {
 		        nameValuePairs.add(new BasicNameValuePair("user", mUser));
 		        nameValuePairs.add(new BasicNameValuePair("password", mPassword));
 		        httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				DefaultHttpClient client = new DefaultHttpClient();
 				HttpResponse response = client.execute(httpMethod);
 				HttpEntity entity = response.getEntity();
 				result = EntityUtils.toString(entity);
@@ -233,15 +234,15 @@ public class PrayerLoginActivity extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 			PrayerParser pray_parser = new PrayerParser(result);
-			List<NameValuePair> accountInfo = pray_parser.parseLogin();
-			if (!accountInfo.get(0).getValue().isEmpty()) {
+			HashMap<String, String> accountInfo = pray_parser.parseLogin();
+			if (!accountInfo.get("error").isEmpty()) {
 				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			} else {
 				SharedPreferences sharedPref = mContext.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("user", mUser);
-				editor.putString("session_id", accountInfo.get(1).getValue());
+				editor.putString("session_id", accountInfo.get("session_id"));
 				editor.commit();
 				Intent intent = new Intent(getApplicationContext(), PrayerListActivity.class);
 				startActivity(intent);
