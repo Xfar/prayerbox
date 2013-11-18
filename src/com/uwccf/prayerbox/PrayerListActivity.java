@@ -1,39 +1,76 @@
 package com.uwccf.prayerbox;
 
-import java.util.ArrayList;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import com.uwccf.prayerbox.R;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.Toast;
 
-public class PrayerListActivity extends ListActivity {
-	public ArrayList<String> your_array_list;
+public class PrayerListActivity extends FragmentActivity implements
+		ActionBar.TabListener {
+
+	private ViewPager viewPager;
+	private PrayerListTabsPagerAdapter mAdapter;
+	private ActionBar actionBar;
+	// Tab titles
+	private String[] tabs = { "Prayer List", "Prayer Log" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login_page);
-		new GetData().execute("");
+		setContentView(R.layout.activity_prayer_list);
+
+		// Initialization
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
+		mAdapter = new PrayerListTabsPagerAdapter(getSupportFragmentManager());
+
+		viewPager.setAdapter(mAdapter);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		// Adding Tabs
+		for (String tab_name : tabs) {
+			actionBar.addTab(actionBar.newTab().setText(tab_name)
+					.setTabListener(this));
+		}
+
+		/**
+		 * on swiping the viewpager make respective tab selected
+		 * */
+		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				// On changing fragments, make respected tab selected
+				actionBar.setSelectedNavigationItem(position);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		// On tab selected, show respected fragment view
+		viewPager.setCurrentItem(tab.getPosition());
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 	}
 
 	@Override
@@ -47,82 +84,29 @@ public class PrayerListActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.log_out:
-	            SharedPreferences sharedPref = this.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
-	            SharedPreferences.Editor manage = sharedPref.edit();
-	            manage.clear();
-	            manage.commit();
-	            Intent intent = new Intent(getApplicationContext(), PrayerLoginActivity.class);
-	            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-	            startActivity(intent);
-	            finish();
-	            return true;
-	        case R.id.action_addedit:
-	        	Intent intnt = new Intent(getApplicationContext(), PrayerAddEditActivity.class);
-	        	startActivity(intnt);
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Prayer item = (Prayer) getListAdapter().getItem(position);
-		String request = item.request;
-		String subject = item.subject;
-
-		Intent nextScreen = new Intent(getApplicationContext(),
-				PrayerDetailsActivity.class);
-
-		// Sending data to another Activity
-		nextScreen.putExtra("subject", subject);
-		nextScreen.putExtra("request", request);
-
-		startActivity(nextScreen);
-		overridePendingTransition(R.anim.right_slide_in, R.anim.no_anim);
-	}
-
-	private class GetData extends AsyncTask<String, Void, String> {
-		private String result;
-		private ProgressDialog Dialog = new ProgressDialog(
-				PrayerListActivity.this);
-
-		@Override
-		protected String doInBackground(String... params) {
-			HttpPost httpMethod = new HttpPost(
-					"http://www.uwccf.ca/prayerbox/api/prayerproxy.php");
-
-			result = null;
-			try {
-				HttpResponse response = PrayerLoginActivity.client.execute(httpMethod);
-
-				HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			Dialog.setMessage("Loading Prayer Requests...");
-			Dialog.show();
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			PrayerParser pray_parser = new PrayerParser(result);
-			ArrayList<Prayer> prayer_list = pray_parser.parsePrayerList();
-			PrayerAdapter prayerAdapter = new PrayerAdapter(
-					PrayerListActivity.this, prayer_list);
-			setListAdapter(prayerAdapter);
-			Dialog.dismiss();
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			SharedPreferences sharedPref = this.getSharedPreferences(
+					ACCOUNT_SERVICE, MODE_PRIVATE);
+			SharedPreferences.Editor manage = sharedPref.edit();
+			manage.clear();
+			manage.commit();
+			Intent intent = new Intent(getApplicationContext(),
+					PrayerLoginActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
+			finish();
+			return true;
+		case R.id.action_addedit:
+			Intent intnt = new Intent(getApplicationContext(),
+					PrayerAddEditActivity.class);
+			startActivity(intnt);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
+
 }

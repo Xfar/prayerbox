@@ -1,12 +1,9 @@
 package com.uwccf.prayerbox;
 
-import com.uwccf.prayerbox.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -15,7 +12,7 @@ public class PrayerDetailsActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pray_detail);
+		setContentView(R.layout.activity_prayer_details);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
 
@@ -23,12 +20,15 @@ public class PrayerDetailsActivity extends Activity {
 		// Receiving the Data
 		String subject = i.getStringExtra("subject");
 		String request = i.getStringExtra("request");
-
+		String author = i.getStringExtra("author");
+		
 		TextView txtRequest = (TextView) findViewById(R.id.prayer_request);
+		TextView txtAuthor = (TextView) findViewById(R.id.prayer_author);
 
 		// Displaying Received data
 		setTitle(subject);
 		txtRequest.setText(request);
+		txtAuthor.setText(author);
 	}
 
 	@Override
@@ -37,7 +37,6 @@ public class PrayerDetailsActivity extends Activity {
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
-			overridePendingTransition(0, R.anim.right_slide_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -46,7 +45,6 @@ public class PrayerDetailsActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		this.finish();
-		overridePendingTransition(0, R.anim.right_slide_out);
 		return;
 	}
 

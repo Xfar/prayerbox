@@ -17,7 +17,7 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
     private Context context;
 
     public PrayerAdapter(Context context,  ArrayList<Prayer> items) {
-        super(context, R.layout.item, items);
+        super(context, R.layout.list_item_prayer, items);
         this.context = context;
         this.items = items;
     }
@@ -26,7 +26,7 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.item, null);
+            view = inflater.inflate(R.layout.list_item_prayer, null);
         }
 
         Prayer item = items.get(position);
