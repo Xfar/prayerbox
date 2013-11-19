@@ -6,5 +6,7 @@
     <string name="refresh">Refresh</string>
     <string name="prayer_list">Prayer List</string>
     <string name="logout">Log Out</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_pluspray">+Pray</string>
 
 </resources>

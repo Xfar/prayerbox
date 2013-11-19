@@ -1,6 +1,5 @@
 package ca.uwccf.prayerbox;
 
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

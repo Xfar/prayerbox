@@ -2,12 +2,8 @@ package ca.uwccf.prayerbox;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -16,74 +12,71 @@ import android.text.Html;
 public class PrayerParser {
 	private XmlPullParserFactory factory;
 	private String m_content;
-	
-	public PrayerParser(String content){
+
+	public PrayerParser(String content) {
 		m_content = content;
-		
+
 		try {
 			factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-		}catch (Exception e)
-		{
+			factory.setNamespaceAware(true);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public HashMap<String, String> parseLogin(){
-		try{
-	        XmlPullParser parser = null;
+
+	public HashMap<String, String> parseLogin() {
+		try {
+			XmlPullParser parser = null;
 			parser = factory.newPullParser();
-			parser.setInput(new StringReader (m_content));
+			parser.setInput(new StringReader(m_content));
 			int eventType = 0;
 			HashMap<String, String> accountInfo = new HashMap<String, String>();
 			eventType = parser.getEventType();
-		    while (eventType != XmlPullParser.END_DOCUMENT) {
-		    	switch(eventType) {
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				switch (eventType) {
 				// at start of document: START_DOCUMENT
 
 				// at start of a tag: START_TAG
 				case XmlPullParser.START_TAG:
 					// get tag name
 					String tagName = parser.getName();
-					if(tagName.equalsIgnoreCase("error")){
+					if (tagName.equalsIgnoreCase("error")) {
 						accountInfo.put("error", parser.nextText());
 					}
-					if(tagName.equalsIgnoreCase("user")){
+					if (tagName.equalsIgnoreCase("user")) {
 						accountInfo.put("user", parser.nextText());
 					}
-					if(tagName.equalsIgnoreCase("email")){
+					if (tagName.equalsIgnoreCase("email")) {
 						accountInfo.put("email", parser.nextText());
 					}
-					if(tagName.equalsIgnoreCase("displayname")){
+					if (tagName.equalsIgnoreCase("displayname")) {
 						accountInfo.put("displayname", parser.nextText());
 					}
-					if(tagName.equalsIgnoreCase("session_id")) {
+					if (tagName.equalsIgnoreCase("session_id")) {
 						accountInfo.put("session_id", parser.nextText());
 					}
-		    	}
-		    	eventType = parser.next();}
-		    	return accountInfo;
-		}catch (Exception e){
-			 e.printStackTrace();
-			 return null;
+				}
+				eventType = parser.next();
+			}
+			return accountInfo;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-	    
-		
+
 	}
-	
-	public ArrayList<Prayer> parsePrayerList()
-	{
-		try
-		{
-	        XmlPullParser parser = null;
+
+	public ArrayList<Prayer> parsePrayerList() {
+		try {
+			XmlPullParser parser = null;
 			parser = factory.newPullParser();
-			parser.setInput(new StringReader (m_content));
+			parser.setInput(new StringReader(m_content));
 			ArrayList<Prayer> prayer_list = new ArrayList<Prayer>();
 			int eventType = 0;
 			eventType = parser.getEventType();
 			Prayer prayer = null;
-		    while (eventType != XmlPullParser.END_DOCUMENT) {
-		    	switch(eventType) {
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				switch (eventType) {
 				// at start of document: START_DOCUMENT
 
 				// at start of a tag: START_TAG
@@ -91,36 +84,32 @@ public class PrayerParser {
 					// get tag name
 					String tagName = parser.getName();
 					// if <study>, get attribute: 'id'
-					if(tagName.equalsIgnoreCase("prayer")) {
+					if (tagName.equalsIgnoreCase("prayer")) {
 						prayer = new Prayer();
 						break;
-					}
-					else if(tagName.equalsIgnoreCase("subject")) {
+					} else if (tagName.equalsIgnoreCase("subject")) {
 						prayer.subject = parser.nextText();
-					}
-					else if(tagName.equalsIgnoreCase("request")) {
-						prayer.request = Html.fromHtml(parser.nextText()).toString();
-					}
-					else if(tagName.equalsIgnoreCase("name")){
+					} else if (tagName.equalsIgnoreCase("request")) {
+						prayer.request = Html.fromHtml(parser.nextText())
+								.toString();
+					} else if (tagName.equalsIgnoreCase("name")) {
 						prayer.author = parser.nextText();
-					}
-					else if(tagName.equalsIgnoreCase("date")){
+					} else if (tagName.equalsIgnoreCase("date")) {
 						prayer.date = parser.nextText();
 					}
 					break;
 				case XmlPullParser.END_TAG:
-					if(parser.getName().equalsIgnoreCase("prayer"))
-					{
+					if (parser.getName().equalsIgnoreCase("prayer")) {
 						prayer_list.add(prayer);
 						prayer = null;
 					}
-		    	}
-		     eventType = parser.next();
-		    }
-		    return prayer_list;
-		}catch (Exception e){
-			 e.printStackTrace();
-			 return null;
+				}
+				eventType = parser.next();
+			}
+			return prayer_list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

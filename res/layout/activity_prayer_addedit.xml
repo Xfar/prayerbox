@@ -3,30 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="16dp" >
 
-    <EditText
-        android:id="@+id/subject"
-        android:hint="@string/subject"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" >
+        android:layout_height="48dp" >
 
-        <requestFocus />
-    </EditText>
-    
-    <CheckBox
-        android:id="@+id/anonCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/anon" />
-    
+        <EditText
+            android:id="@+id/subject"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/anonCheck"
+            android:ems="10"
+            android:hint="@string/subject"
+            android:maxLines="1"
+            android:singleLine="true" >
+
+            <requestFocus />
+        </EditText>
+
+        <CheckBox
+            android:id="@+id/anonCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:text="@string/anon" />
+    </RelativeLayout>
+
     <EditText
         android:id="@+id/prayer"
-        android:hint="@string/request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textMultiLine" />
+        android:hint="@string/request"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp" />
 
 </LinearLayout>

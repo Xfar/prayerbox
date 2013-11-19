@@ -13,8 +13,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import ca.uwccf.prayerbox.R;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -33,7 +31,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -60,10 +57,12 @@ public class PrayerLoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedPreferences sharedPref = this.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+		SharedPreferences sharedPref = this.getSharedPreferences(
+				ACCOUNT_SERVICE, MODE_PRIVATE);
 		client = new DefaultHttpClient();
-		if(sharedPref.contains("session_id")){
-			Intent intent = new Intent(getApplicationContext(),PrayerListActivity.class);
+		if (sharedPref.contains("session_id")) {
+			Intent intent = new Intent(getApplicationContext(),
+					PrayerListActivity.class);
 			startActivity(intent);
 			finish();
 		}
@@ -147,8 +146,7 @@ public class PrayerLoginActivity extends Activity {
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			InputMethodManager imm = (InputMethodManager)getSystemService(
-				      Context.INPUT_METHOD_SERVICE);
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
@@ -207,19 +205,23 @@ public class PrayerLoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, String> {
 		private String result;
 		private Context mContext;
-		public UserLoginTask(Context context){
+
+		public UserLoginTask(Context context) {
 			mContext = context;
 		}
+
 		@Override
 		protected String doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 			try {
 				HttpPost httpMethod = new HttpPost(
 						"http://www.uwccf.ca/prayerbox/api/loginproxy.php");
-		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		        nameValuePairs.add(new BasicNameValuePair("user", mUser));
-		        nameValuePairs.add(new BasicNameValuePair("password", mPassword));
-		        httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+						2);
+				nameValuePairs.add(new BasicNameValuePair("user", mUser));
+				nameValuePairs
+						.add(new BasicNameValuePair("password", mPassword));
+				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = client.execute(httpMethod);
 				HttpEntity entity = response.getEntity();
 				result = EntityUtils.toString(entity);
@@ -238,15 +240,18 @@ public class PrayerLoginActivity extends Activity {
 			PrayerParser pray_parser = new PrayerParser(result);
 			HashMap<String, String> accountInfo = pray_parser.parseLogin();
 			if (!accountInfo.get("error").isEmpty()) {
-				mPasswordView.setError(getString(R.string.error_incorrect_password));
+				mPasswordView
+						.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			} else {
-				SharedPreferences sharedPref = mContext.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+				SharedPreferences sharedPref = mContext.getSharedPreferences(
+						ACCOUNT_SERVICE, MODE_PRIVATE);
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("user", accountInfo.get("user"));
 				editor.putString("session_id", accountInfo.get("session_id"));
 				editor.commit();
-				Intent intent = new Intent(getApplicationContext(), PrayerListActivity.class);
+				Intent intent = new Intent(getApplicationContext(),
+						PrayerListActivity.class);
 				startActivity(intent);
 				finish();
 			}

@@ -11,21 +11,94 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import ca.uwccf.prayerbox.R;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.MultiChoiceModeListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PrayerLogFragment extends ListFragment {
-	
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				((ListView) parent).setItemChecked(position,
+						((ListView) parent).isItemChecked(position));
+				return false;
+			}
+		});
+
+		getListView().setMultiChoiceModeListener(new MultiChoiceModeListener() {
+
+			private int nr = 0;
+
+			@Override
+			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+				getActivity().getMenuInflater().inflate(
+						R.menu.contextual_prayer_log, menu);
+				return true;
+			}
+
+			@Override
+			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+				return false;
+			}
+
+			@Override
+			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+				switch (item.getItemId()) {
+				case R.id.contextual_action_delete:
+					// TODO: Replace toast with code for deleting selected items
+					// here
+					Toast.makeText(getActivity(), "Delete selected",
+							Toast.LENGTH_SHORT).show();
+					mode.finish();
+					break;
+
+				}
+				return false;
+			}
+
+			@Override
+			public void onDestroyActionMode(ActionMode mode) {
+				nr = 0;
+			}
+
+			@Override
+			public void onItemCheckedStateChanged(ActionMode mode,
+					int position, long id, boolean checked) {
+				if (checked) {
+					nr++;
+				} else {
+					nr--;
+				}
+				if (nr > 1)
+					mode.setTitle(nr + " items selected");
+				else
+					mode.setTitle("1 item selected");
+			}
+		});
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +129,7 @@ public class PrayerLogFragment extends ListFragment {
 		nextScreen.putExtra("subject", subject);
 		nextScreen.putExtra("request", request);
 		nextScreen.putExtra("author", author);
-		
+
 		startActivity(nextScreen);
 	}
 
@@ -69,9 +142,11 @@ public class PrayerLogFragment extends ListFragment {
 			try {
 				HttpPost httpMethod = new HttpPost(
 						"http://www.uwccf.ca/prayerbox/api/prayerlistproxy.php");
-		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		        nameValuePairs.add(new BasicNameValuePair("username", PrayerListActivity.mUser));
-		        httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+						2);
+				nameValuePairs.add(new BasicNameValuePair("username",
+						PrayerListActivity.mUser));
+				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = PrayerLoginActivity.client
 						.execute(httpMethod);
 				HttpEntity entity = response.getEntity();

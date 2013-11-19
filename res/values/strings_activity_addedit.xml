@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="subject">Subject</string>
-    <string name="anon">Anonymous</string>
+    <string name="anon">Anon.</string>
     <string name="request">Request</string>
     <string name="praise">Praise</string>
     <string name="submit">Submit</string>
-    <string name="add">Request</string>
+    <string name="add">Submit</string>
     
 </resources>
