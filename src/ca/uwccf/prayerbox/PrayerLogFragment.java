@@ -1,14 +1,21 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import ca.uwccf.prayerbox.R;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -18,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class PrayerLogFragment extends ListFragment {
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,14 +66,14 @@ public class PrayerLogFragment extends ListFragment {
 
 		@Override
 		protected String doInBackground(String... params) {
-			HttpPost httpMethod = new HttpPost(
-					"http://www.uwccf.ca/prayerbox/api/prayerproxy.php");
-
-			result = null;
 			try {
+				HttpPost httpMethod = new HttpPost(
+						"http://www.uwccf.ca/prayerbox/api/prayerlistproxy.php");
+		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		        nameValuePairs.add(new BasicNameValuePair("username", PrayerListActivity.mUser));
+		        httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = PrayerLoginActivity.client
 						.execute(httpMethod);
-
 				HttpEntity entity = response.getEntity();
 				result = EntityUtils.toString(entity);
 				return result;

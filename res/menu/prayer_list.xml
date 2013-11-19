@@ -5,6 +5,7 @@
         android:id="@+id/action_addedit"
         android:orderInCategory="100"
         android:showAsAction="always"
+        android:icon="@drawable/ic_compose"
         android:title="@string/add"/>
     
     <item

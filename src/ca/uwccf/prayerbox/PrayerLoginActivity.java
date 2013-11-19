@@ -1,4 +1,4 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import ca.uwccf.prayerbox.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -241,7 +243,7 @@ public class PrayerLoginActivity extends Activity {
 			} else {
 				SharedPreferences sharedPref = mContext.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
 				SharedPreferences.Editor editor = sharedPref.edit();
-				editor.putString("user", mUser);
+				editor.putString("user", accountInfo.get("user"));
 				editor.putString("session_id", accountInfo.get("session_id"));
 				editor.commit();
 				Intent intent = new Intent(getApplicationContext(), PrayerListActivity.class);

@@ -1,4 +1,4 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -47,6 +47,15 @@ public class PrayerParser {
 					String tagName = parser.getName();
 					if(tagName.equalsIgnoreCase("error")){
 						accountInfo.put("error", parser.nextText());
+					}
+					if(tagName.equalsIgnoreCase("user")){
+						accountInfo.put("user", parser.nextText());
+					}
+					if(tagName.equalsIgnoreCase("email")){
+						accountInfo.put("email", parser.nextText());
+					}
+					if(tagName.equalsIgnoreCase("displayname")){
+						accountInfo.put("displayname", parser.nextText());
 					}
 					if(tagName.equalsIgnoreCase("session_id")) {
 						accountInfo.put("session_id", parser.nextText());

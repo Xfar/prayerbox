@@ -1,8 +1,8 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
 
-import com.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

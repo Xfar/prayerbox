@@ -1,5 +1,6 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,7 +13,6 @@ public class PrayerListTabsPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int index) {
-
 		switch (index) {
 		case 0:
 			return new PrayerListFragment();

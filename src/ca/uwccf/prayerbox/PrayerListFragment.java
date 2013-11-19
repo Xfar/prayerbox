@@ -1,4 +1,4 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.util.EntityUtils;
+
+import ca.uwccf.prayerbox.R;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

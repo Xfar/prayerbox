@@ -1,4 +1,6 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
+
+import ca.uwccf.prayerbox.R;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -16,6 +18,7 @@ public class PrayerListActivity extends FragmentActivity implements
 	private ViewPager viewPager;
 	private PrayerListTabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
+	static public String mUser;
 	// Tab titles
 	private String[] tabs = { "Prayer List", "Prayer Log" };
 
@@ -23,8 +26,9 @@ public class PrayerListActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_prayer_list);
-
 		// Initialization
+		SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+		mUser = prefs.getString("user", "");
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
 		mAdapter = new PrayerListTabsPagerAdapter(getSupportFragmentManager());
@@ -78,7 +82,7 @@ public class PrayerListActivity extends FragmentActivity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.prayer_list, menu);
 		ActionBar bar = this.getActionBar();
-		bar.setTitle(R.string.prayer_list);
+		bar.setTitle(R.string.app_name);
 		return true;
 	}
 

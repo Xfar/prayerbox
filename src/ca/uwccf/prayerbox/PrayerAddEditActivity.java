@@ -1,4 +1,4 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.uwccf.prayerbox.PrayerLoginActivity.UserLoginTask;
+import ca.uwccf.prayerbox.PrayerLoginActivity.UserLoginTask;
+
+import ca.uwccf.prayerbox.R;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,9 +70,20 @@ public class PrayerAddEditActivity extends Activity {
 	public boolean submitRequest(){
 		mSubject = mSubjectView.getText().toString();
 		mPrayer = mPrayerView.getText().toString();
-		mAddEditTask = new AddEditTask(getApplicationContext());
-		mAddEditTask.execute((Void) null);
-		return true;
+		View focusView = null;
+		if (TextUtils.isEmpty(mSubject)) {
+			mSubjectView.setError(getString(R.string.error_field_required));
+			focusView = mSubjectView;
+		} else if (TextUtils.isEmpty(mPrayer)) {
+			mPrayerView.setError(getString(R.string.error_field_required));
+			focusView = mPrayerView;
+		} else {
+			mAddEditTask = new AddEditTask(getApplicationContext());
+			mAddEditTask.execute((Void) null);
+			return true;
+		}
+		focusView.requestFocus();
+		return false;
 	}
 
 	public class AddEditTask extends AsyncTask<Void, Void, String> {

@@ -1,4 +1,4 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
 
 public class Prayer {
 	String subject;

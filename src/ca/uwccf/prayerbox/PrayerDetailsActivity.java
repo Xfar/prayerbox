@@ -1,4 +1,6 @@
-package com.uwccf.prayerbox;
+package ca.uwccf.prayerbox;
+
+import ca.uwccf.prayerbox.R;
 
 import android.app.Activity;
 import android.content.Intent;
