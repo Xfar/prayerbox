@@ -23,14 +23,17 @@ public class PrayerDetailsActivity extends Activity {
 		String subject = i.getStringExtra("subject");
 		String request = i.getStringExtra("request");
 		String author = i.getStringExtra("author");
+		String date = i.getStringExtra("date");
 		
 		TextView txtRequest = (TextView) findViewById(R.id.prayer_request);
 		TextView txtAuthor = (TextView) findViewById(R.id.prayer_author);
+		TextView txtDate = (TextView) findViewById(R.id.prayer_date);
 
 		// Displaying Received data
 		setTitle(subject);
 		txtRequest.setText(request);
 		txtAuthor.setText(author);
+		txtDate.setText(date);
 	}
 
 	@Override

@@ -133,6 +133,7 @@ public class PrayerListFragment extends ListFragment {
 		String request = item.request;
 		String subject = item.subject;
 		String author = item.author;
+		String date = item.date;
 
 		Intent nextScreen = new Intent(getActivity(),
 				PrayerDetailsActivity.class);
@@ -141,6 +142,7 @@ public class PrayerListFragment extends ListFragment {
 		nextScreen.putExtra("subject", subject);
 		nextScreen.putExtra("request", request);
 		nextScreen.putExtra("author", author);
+		nextScreen.putExtra("date", date);
 
 		startActivity(nextScreen);
 	}
