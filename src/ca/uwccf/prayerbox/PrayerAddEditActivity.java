@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ public class PrayerAddEditActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_prayer_addedit);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setTitle("New prayer request");
 
 		mPrayerView = (EditText) findViewById(R.id.prayer);
@@ -56,6 +58,9 @@ public class PrayerAddEditActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
 		case R.id.submit:
 			return submitRequest();
 		default:

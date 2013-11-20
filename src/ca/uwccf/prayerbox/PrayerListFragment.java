@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.util.EntityUtils;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -64,28 +65,23 @@ public class PrayerListFragment extends ListFragment {
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 				switch (item.getItemId()) {
 				case R.id.contextual_action_pluspray:
-					// TODO: Replace with code for adding selected items to log
-					// here
 					SparseBooleanArray selected = ((PrayerAdapter) getListAdapter())
 							.getSelectedIds();
-					String strSelected = new String("+Pray selected on: ");
+					ArrayList<String> prayerList = new ArrayList<String>(); 
 					for (int i = (selected.size() - 1); i >= 0; i--) {
 						if (selected.valueAt(i)) {
 							Prayer selectedItem = (Prayer) getListAdapter()
 									.getItem(selected.keyAt(i));
-							// addToPrayerLog(selectedItem);
-
-							strSelected = strSelected + selectedItem.subject
-									+ ", ";
+							prayerList.add(selectedItem.prayer_id);
 						}
 					}
-					Toast.makeText(getActivity(), strSelected,
-							Toast.LENGTH_SHORT).show();
+					PrayerListDataHandler data = new PrayerListDataHandler(getActivity().getApplicationContext());
+					data.execute(prayerList);
 					mode.finish();
 					break;
 
 				}
-				return false;
+				return true;
 			}
 
 			@Override
@@ -134,6 +130,7 @@ public class PrayerListFragment extends ListFragment {
 		String subject = item.subject;
 		String author = item.author;
 		String date = item.date;
+		String prayer_id = item.prayer_id;
 
 		Intent nextScreen = new Intent(getActivity(),
 				PrayerDetailsActivity.class);
@@ -143,6 +140,8 @@ public class PrayerListFragment extends ListFragment {
 		nextScreen.putExtra("request", request);
 		nextScreen.putExtra("author", author);
 		nextScreen.putExtra("date", date);
+		nextScreen.putExtra("prayer_id", prayer_id);
+		nextScreen.putExtra("fromList", true);
 
 		startActivity(nextScreen);
 	}

@@ -1,6 +1,7 @@
 package ca.uwccf.prayerbox;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.R.id;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;

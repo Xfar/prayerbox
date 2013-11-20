@@ -5,4 +5,5 @@ public class Prayer {
 	String request;
 	String author;
 	String date;
+	String prayer_id;
 }

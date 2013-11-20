@@ -33,7 +33,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter></activity>
-        <activity android:name="ca.uwccf.prayerbox.PrayerAddEditActivity"></activity>
+        <activity android:name="ca.uwccf.prayerbox.PrayerAddEditActivity"
+                  android:parentActivityName="ca.uwccf.prayerbox.PrayerListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.uwccf.prayerbox.PrayerListActivity" />
+        </activity>
      </application>
 
 </manifest>

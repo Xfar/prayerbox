@@ -94,6 +94,8 @@ public class PrayerParser {
 								.toString();
 					} else if (tagName.equalsIgnoreCase("name")) {
 						prayer.author = parser.nextText();
+					} else if (tagName.equalsIgnoreCase("prayer_id")) {
+						prayer.prayer_id = parser.nextText();
 					} else if (tagName.equalsIgnoreCase("date")) {
 						prayer.date = parser.nextText();
 					}
