@@ -101,7 +101,7 @@ public class PrayerLogFragment extends ListFragment {
 			public void onItemCheckedStateChanged(ActionMode mode,
 					int position, long id, boolean checked) {
 				((PrayerAdapter) getListAdapter()).toggleSelection(position);
-				
+
 				if (checked) {
 					nr++;
 				} else {
@@ -118,6 +118,11 @@ public class PrayerLogFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		new GetData().execute("");
 	}
 
@@ -147,7 +152,7 @@ public class PrayerLogFragment extends ListFragment {
 		nextScreen.putExtra("request", request);
 		nextScreen.putExtra("author", author);
 		nextScreen.putExtra("date", date);
-		
+
 		startActivity(nextScreen);
 	}
 
