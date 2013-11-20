@@ -118,11 +118,6 @@ public class PrayerLogFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
 		new GetData().execute("");
 	}
 
