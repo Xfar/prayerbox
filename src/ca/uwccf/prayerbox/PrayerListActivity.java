@@ -27,7 +27,8 @@ public class PrayerListActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_prayer_list);
 		// Initialization
-		SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+		SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE,
+				MODE_PRIVATE);
 		mUser = prefs.getString("user", "");
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
@@ -49,7 +50,7 @@ public class PrayerListActivity extends FragmentActivity implements
 
 			@Override
 			public void onPageSelected(int position) {
-				// On changing fragments, make respected tab selected
+				// On changing fragments, make respective tab selected
 				actionBar.setSelectedNavigationItem(position);
 			}
 
@@ -69,7 +70,7 @@ public class PrayerListActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
-		// On tab selected, show respected fragment view
+		// On tab selected, show respective fragment view
 		viewPager.setCurrentItem(tab.getPosition());
 	}
 

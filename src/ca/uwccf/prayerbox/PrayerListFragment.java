@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -63,9 +64,22 @@ public class PrayerListFragment extends ListFragment {
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 				switch (item.getItemId()) {
 				case R.id.contextual_action_pluspray:
-					// TODO: Replace toast with code for deleting selected items
+					// TODO: Replace with code for adding selected items to log
 					// here
-					Toast.makeText(getActivity(), "+Pray selected",
+					SparseBooleanArray selected = ((PrayerAdapter) getListAdapter())
+							.getSelectedIds();
+					String strSelected = new String("+Pray selected on: ");
+					for (int i = (selected.size() - 1); i >= 0; i--) {
+						if (selected.valueAt(i)) {
+							Prayer selectedItem = (Prayer) getListAdapter()
+									.getItem(selected.keyAt(i));
+							// addToPrayerLog(selectedItem);
+
+							strSelected = strSelected + selectedItem.subject
+									+ ", ";
+						}
+					}
+					Toast.makeText(getActivity(), strSelected,
 							Toast.LENGTH_SHORT).show();
 					mode.finish();
 					break;
@@ -82,6 +96,8 @@ public class PrayerListFragment extends ListFragment {
 			@Override
 			public void onItemCheckedStateChanged(ActionMode mode,
 					int position, long id, boolean checked) {
+				((PrayerAdapter) getListAdapter()).toggleSelection(position);
+
 				if (checked) {
 					nr++;
 				} else {

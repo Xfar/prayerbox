@@ -2,9 +2,8 @@ package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
 
-import ca.uwccf.prayerbox.R;
-
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,13 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 	private ArrayList<Prayer> items;
 	private Context context;
 
+	private SparseBooleanArray selectedItemIds;
+
 	public PrayerAdapter(Context context, ArrayList<Prayer> items) {
 		super(context, R.layout.list_item_prayer, items);
+
+		selectedItemIds = new SparseBooleanArray();
+
 		this.context = context;
 		this.items = items;
 	}
@@ -55,5 +59,31 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 
 		return view;
 	}
-	
+
+	public void toggleSelection(int position) {
+		selectView(position, !selectedItemIds.get(position));
+	}
+
+	public void removeSelection() {
+		selectedItemIds = new SparseBooleanArray();
+		notifyDataSetChanged();
+	}
+
+	public void selectView(int position, boolean value) {
+		if (value)
+			selectedItemIds.put(position, value);
+		else
+			selectedItemIds.delete(position);
+
+		notifyDataSetChanged();
+	}
+
+	public int getSelectedCount() {
+		return selectedItemIds.size();
+	}
+
+	public SparseBooleanArray getSelectedIds() {
+		return selectedItemIds;
+	}
+
 }
