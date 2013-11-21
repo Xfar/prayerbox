@@ -52,7 +52,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginTop="48dp"
-            android:hint="@string/prompt_user"
+            android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true" >
@@ -80,7 +80,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:focusable="true"
-            android:text="@string/action_sign_in_register" />
+            android:text="@string/action_sign_in_register"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ImageButton
