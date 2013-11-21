@@ -1,8 +1,5 @@
 package ca.uwccf.prayerbox;
 
-import ca.uwccf.prayerbox.R;
-import ca.uwccf.prayerbox.R.id;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
@@ -12,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 public class PrayerListActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -22,10 +20,18 @@ public class PrayerListActivity extends FragmentActivity implements
 	static public String mUser;
 	// Tab titles
 	private String[] tabs = { "Prayer List", "Prayer Log" };
+	public boolean newItemsStarred = false;
+
+	public void refreshPrayerLog() {
+		((PrayerLogFragment) mAdapter.getItem(1)).refresh();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		
 		setContentView(R.layout.activity_prayer_list);
 		// Initialization
 		SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE,
@@ -53,6 +59,10 @@ public class PrayerListActivity extends FragmentActivity implements
 			public void onPageSelected(int position) {
 				// On changing fragments, make respective tab selected
 				actionBar.setSelectedNavigationItem(position);
+				
+				if (newItemsStarred) {
+					refreshPrayerLog();
+				}
 			}
 
 			@Override

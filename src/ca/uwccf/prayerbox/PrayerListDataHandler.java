@@ -15,23 +15,26 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-public class PrayerListDataHandler extends AsyncTask<ArrayList<String>, Void, String> {
+public class PrayerListDataHandler extends
+		AsyncTask<ArrayList<String>, Void, String> {
 	private String result;
 	private Context mContext;
-	
-	public PrayerListDataHandler(Context context){
+
+	public PrayerListDataHandler(Context context) {
 		mContext = context;
 	}
+
 	@Override
 	protected String doInBackground(ArrayList<String>... arg0) {
-		try{
+		try {
 			HttpPost httpMethod = new HttpPost(
 					"http://www.uwccf.ca/prayerbox/api/prayerlistproc.php");
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(); 
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			ArrayList<String> plist = arg0[0];
 			for (String prayer_id : plist) {
-				if(!prayer_id.isEmpty()){
-					nameValuePairs.add(new BasicNameValuePair("prayerids[]", prayer_id));
+				if (!prayer_id.isEmpty()) {
+					nameValuePairs.add(new BasicNameValuePair("prayerids[]",
+							prayer_id));
 				}
 			}
 			httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -40,13 +43,12 @@ public class PrayerListDataHandler extends AsyncTask<ArrayList<String>, Void, St
 			HttpEntity entity = response.getEntity();
 			result = EntityUtils.toString(entity);
 			return result;
-		}
-		catch(Exception e){
-		
+		} catch (Exception e) {
+
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void onPostExecute(final String success) {
 		Toast.makeText(mContext, success, Toast.LENGTH_LONG).show();

@@ -115,10 +115,14 @@ public class PrayerLogFragment extends ListFragment {
 		});
 	}
 
+	public void refresh() {
+		new GetData().execute("");
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		new GetData().execute("");
+		refresh();
 	}
 
 	@Override
@@ -153,7 +157,8 @@ public class PrayerLogFragment extends ListFragment {
 
 	private class GetData extends AsyncTask<String, Void, String> {
 		private String result;
-		private ProgressDialog Dialog = new ProgressDialog(getActivity());
+
+		// private ProgressDialog Dialog = new ProgressDialog(getActivity());
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -178,8 +183,9 @@ public class PrayerLogFragment extends ListFragment {
 
 		@Override
 		protected void onPreExecute() {
-			Dialog.setMessage("Loading Prayer Requests...");
-			Dialog.show();
+			// Dialog.setMessage("Loading Prayer Requests...");
+			// Dialog.show();
+			getActivity().setProgressBarIndeterminateVisibility(true);
 		}
 
 		@Override
@@ -187,9 +193,10 @@ public class PrayerLogFragment extends ListFragment {
 			PrayerParser pray_parser = new PrayerParser(result);
 			ArrayList<Prayer> prayer_list = pray_parser.parsePrayerList();
 			PrayerAdapter prayerAdapter = new PrayerAdapter(getActivity(),
-					prayer_list);
+					prayer_list, true);
 			setListAdapter(prayerAdapter);
-			Dialog.dismiss();
+			// Dialog.dismiss();
+			getActivity().setProgressBarIndeterminateVisibility(false);
 		}
 	}
 

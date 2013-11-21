@@ -13,9 +13,12 @@
         -->
     </style>
 
+    <color name="white_opaque">#FFFFFFFF</color>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowBackground">@color/white_opaque</item>
     </style>
 
 </resources>

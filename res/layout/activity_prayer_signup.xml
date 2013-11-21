@@ -1,38 +1,10 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".PrayerLoginActivity" >
-
-    <!-- Login progress -->
-
-    <LinearLayout
-        android:id="@+id/login_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/login_status_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/login_progress_signing_in"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
-
-    <!-- Login form -->
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/signup_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -47,12 +19,12 @@
             android:clickable="true" />
 
         <EditText
-            android:id="@+id/user"
+            android:id="@+id/email"
             android:layout_width="240dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginTop="48dp"
-            android:hint="@string/prompt_user"
+            android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true" >
@@ -71,7 +43,19 @@
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/displayname"
+            android:layout_width="240dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:hint="@string/prompt_displayname"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/sign_in_button"
@@ -79,17 +63,17 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:focusable="true"
-            android:text="@string/action_sign_in_register" />
+            android:text="@string/action_sign_up_register" />
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/uwccf_logo_button"
         android:layout_width="186dp"
         android:layout_height="49dp"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:background="@drawable/uwccf_logo_official"
         android:clickable="true" />
 
-</merge>
+</RelativeLayout>

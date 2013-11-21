@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -60,13 +62,18 @@ public class PrayerLoginActivity extends Activity {
 		SharedPreferences sharedPref = this.getSharedPreferences(
 				ACCOUNT_SERVICE, MODE_PRIVATE);
 		client = new DefaultHttpClient();
+
 		if (sharedPref.contains("session_id")) {
 			Intent intent = new Intent(getApplicationContext(),
 					PrayerListActivity.class);
 			startActivity(intent);
 			finish();
 		}
+
 		setContentView(R.layout.activity_prayer_login);
+
+		getActionBar().hide();
+
 		mUserView = (EditText) findViewById(R.id.user);
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
@@ -91,6 +98,26 @@ public class PrayerLoginActivity extends Activity {
 					@Override
 					public void onClick(View view) {
 						attemptLogin();
+					}
+				});
+
+		findViewById(R.id.prayerbox_logo).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent i = new Intent(Intent.ACTION_VIEW, Uri
+								.parse("http://www.uwccf.ca/prayerbox"));
+						startActivity(i);
+					}
+				});
+
+		findViewById(R.id.uwccf_logo_button).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent i = new Intent(Intent.ACTION_VIEW, Uri
+								.parse("http://www.uwccf.ca"));
+						startActivity(i);
 					}
 				});
 	}
