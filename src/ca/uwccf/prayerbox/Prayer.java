@@ -6,5 +6,5 @@ public class Prayer {
 	String author;
 	String date;
 	String prayer_id;
-	boolean isStarred = false;
+	boolean isStarred;
 }

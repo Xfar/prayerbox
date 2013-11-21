@@ -39,7 +39,7 @@ public class PrayerAddEditActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_prayer_addedit);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setTitle("New prayer request");
+		setTitle("New Prayer Request");
 
 		mPrayerView = (EditText) findViewById(R.id.prayer);
 		mSubjectView = (EditText) findViewById(R.id.subject);

@@ -3,6 +3,7 @@ package ca.uwccf.prayerbox;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,14 +73,15 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 				public void onClick(View v) {
 
 					if (star.isChecked()) {
-						ArrayList<String> prayerList = new ArrayList<String>();
-						prayerList.add(item.prayer_id);
-						PrayerListDataHandler data = new PrayerListDataHandler(
-								context);
-						data.execute(prayerList);
+						PrayerLogDataHandler data = new PrayerLogDataHandler(
+								context, true);
+						data.execute(item.prayer_id);
 						((PrayerListActivity) context).refreshPrayerLog();
 					} else {
-						// REMOVE item.prayer_id FROM LOG
+						PrayerLogDataHandler data = new PrayerLogDataHandler(
+								context, false);
+						data.execute(item.prayer_id);
+						((PrayerListActivity) context).refreshPrayerLog();
 					}
 
 				}

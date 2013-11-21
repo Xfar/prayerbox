@@ -15,7 +15,7 @@ public class PrayerListActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
 	private ViewPager viewPager;
-	private PrayerListTabsPagerAdapter mAdapter;
+	static private PrayerListTabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	static public String mUser;
 	// Tab titles
@@ -23,6 +23,11 @@ public class PrayerListActivity extends FragmentActivity implements
 	public boolean newItemsStarred = false;
 
 	public void refreshPrayerLog() {
+		((PrayerLogFragment) mAdapter.getItem(1)).refresh();
+	}
+	
+	static public void refresh(){
+		((PrayerListFragment) mAdapter.getItem(0)).refresh();
 		((PrayerLogFragment) mAdapter.getItem(1)).refresh();
 	}
 

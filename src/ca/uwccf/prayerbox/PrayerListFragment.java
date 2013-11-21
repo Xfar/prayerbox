@@ -1,13 +1,18 @@
 package ca.uwccf.prayerbox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -52,16 +57,14 @@ public class PrayerListFragment extends ListFragment {
 		nextScreen.putExtra("author", author);
 		nextScreen.putExtra("date", date);
 		nextScreen.putExtra("prayer_id", prayer_id);
-		nextScreen.putExtra("fromList", true);
+		nextScreen.putExtra("isStarred", item.isStarred);
 
 		startActivity(nextScreen);
 	}
 
 	private class GetData extends AsyncTask<String, Void, String> {
 		private String result;
-
 		// private ProgressDialog Dialog = new ProgressDialog(getActivity());
-
 		@Override
 		protected String doInBackground(String... params) {
 			HttpPost httpMethod = new HttpPost(
@@ -69,9 +72,11 @@ public class PrayerListFragment extends ListFragment {
 
 			result = null;
 			try {
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+				nameValuePairs.add(new BasicNameValuePair("username",PrayerListActivity.mUser));
+				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = PrayerLoginActivity.client
 						.execute(httpMethod);
-
 				HttpEntity entity = response.getEntity();
 				result = EntityUtils.toString(entity);
 				return result;
@@ -98,6 +103,11 @@ public class PrayerListFragment extends ListFragment {
 			// Dialog.dismiss();
 			getActivity().setProgressBarIndeterminateVisibility(false);
 		}
+	}
+
+	public void refresh() {
+		// TODO Auto-generated method stub
+		new GetData().execute("");
 	}
 
 }

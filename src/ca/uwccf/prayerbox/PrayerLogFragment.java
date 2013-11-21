@@ -72,19 +72,21 @@ public class PrayerLogFragment extends ListFragment {
 					// here
 					SparseBooleanArray selected = ((PrayerAdapter) getListAdapter())
 							.getSelectedIds();
-					String strSelected = new String("Delete selected on: ");
+					ArrayList<String> del_prayers = new ArrayList<String>();
 					for (int i = (selected.size() - 1); i >= 0; i--) {
 						if (selected.valueAt(i)) {
 							Prayer selectedItem = (Prayer) getListAdapter()
 									.getItem(selected.keyAt(i));
 							// delete(selectedItem);
 
-							strSelected = strSelected + selectedItem.subject
-									+ ", ";
+							del_prayers.add(selectedItem.prayer_id);
 						}
 					}
-					Toast.makeText(getActivity(), strSelected,
-							Toast.LENGTH_SHORT).show();
+					PrayerLogDataHandler data = new PrayerLogDataHandler(getActivity(), false);
+					for(String prayer_id: del_prayers){
+						data.execute(prayer_id);
+					}
+					((PrayerListActivity)getActivity().getApplicationContext()).refreshPrayerLog();
 					mode.finish();
 					break;
 
@@ -142,6 +144,7 @@ public class PrayerLogFragment extends ListFragment {
 		String subject = item.subject;
 		String author = item.author;
 		String date = item.date;
+		String prayer_id = item.prayer_id;
 
 		Intent nextScreen = new Intent(getActivity(),
 				PrayerDetailsActivity.class);
@@ -151,6 +154,8 @@ public class PrayerLogFragment extends ListFragment {
 		nextScreen.putExtra("request", request);
 		nextScreen.putExtra("author", author);
 		nextScreen.putExtra("date", date);
+		nextScreen.putExtra("isStarred", true);
+		nextScreen.putExtra("prayer_id", prayer_id);
 
 		startActivity(nextScreen);
 	}

@@ -89,6 +89,12 @@ public class PrayerParser {
 						break;
 					} else if (tagName.equalsIgnoreCase("subject")) {
 						prayer.subject = parser.nextText();
+					} else if(tagName.equalsIgnoreCase("isStarred")) {
+						if(parser.nextText().equalsIgnoreCase("true")){
+							prayer.isStarred = true;
+						}else {
+							prayer.isStarred = false;
+						}
 					} else if (tagName.equalsIgnoreCase("request")) {
 						prayer.request = Html.fromHtml(parser.nextText())
 								.toString();
