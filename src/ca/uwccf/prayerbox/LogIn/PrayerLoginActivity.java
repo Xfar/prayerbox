@@ -1,4 +1,4 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.LogIn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerParser;
+import ca.uwccf.prayerbox.MainScreen.PrayerListActivity;
+import ca.uwccf.prayerbox.R.id;
+import ca.uwccf.prayerbox.R.layout;
+import ca.uwccf.prayerbox.R.menu;
+import ca.uwccf.prayerbox.R.string;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

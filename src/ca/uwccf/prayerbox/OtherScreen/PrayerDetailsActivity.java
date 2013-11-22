@@ -1,6 +1,11 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.OtherScreen;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.MainScreen.PrayerListActivity;
+import ca.uwccf.prayerbox.MainScreen.PrayerLogDataHandler;
+import ca.uwccf.prayerbox.R.id;
+import ca.uwccf.prayerbox.R.layout;
+import ca.uwccf.prayerbox.R.menu;
 
 import android.app.Activity;
 import android.content.Intent;

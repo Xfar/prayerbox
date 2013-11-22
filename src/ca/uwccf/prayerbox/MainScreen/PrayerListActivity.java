@@ -1,5 +1,12 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.MainScreen;
 
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerAddEditActivity;
+import ca.uwccf.prayerbox.R.id;
+import ca.uwccf.prayerbox.R.layout;
+import ca.uwccf.prayerbox.R.menu;
+import ca.uwccf.prayerbox.R.string;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;

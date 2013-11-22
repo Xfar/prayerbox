@@ -1,4 +1,4 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.MainScreen;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

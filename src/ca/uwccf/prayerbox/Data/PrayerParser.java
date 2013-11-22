@@ -1,4 +1,4 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.Data;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 
 import android.text.Html;
 

@@ -1,6 +1,11 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.MainScreen;
 
 import java.util.ArrayList;
+
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.Prayer;
+import ca.uwccf.prayerbox.R.id;
+import ca.uwccf.prayerbox.R.layout;
 
 import android.content.Context;
 import android.content.SharedPreferences;

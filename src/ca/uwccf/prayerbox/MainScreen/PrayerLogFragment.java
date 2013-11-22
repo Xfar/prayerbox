@@ -1,4 +1,4 @@
-package ca.uwccf.prayerbox;
+package ca.uwccf.prayerbox.MainScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,15 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.Prayer;
+import ca.uwccf.prayerbox.Data.PrayerParser;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerDetailsActivity;
+import ca.uwccf.prayerbox.R.id;
+import ca.uwccf.prayerbox.R.layout;
+import ca.uwccf.prayerbox.R.menu;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
