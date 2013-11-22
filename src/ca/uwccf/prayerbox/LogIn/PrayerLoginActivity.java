@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerInternetInfo;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.R.id;
@@ -28,6 +29,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -41,6 +44,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -48,6 +52,7 @@ import android.widget.TextView;
  */
 public class PrayerLoginActivity extends Activity {
 	public static DefaultHttpClient client;
+	public static PrayerInternetInfo intInfo;
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
@@ -63,13 +68,14 @@ public class PrayerLoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SharedPreferences sharedPref = this.getSharedPreferences(
 				ACCOUNT_SERVICE, MODE_PRIVATE);
 		client = new DefaultHttpClient();
+		intInfo = new PrayerInternetInfo();
 		if(!sharedPref.getBoolean("validated", false)){
 			Intent intent = new Intent(getApplicationContext(),
 					PrayerValidationActivity.class);
@@ -192,8 +198,13 @@ public class PrayerLoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			mAuthTask = new UserLoginTask(PrayerLoginActivity.this);
-			mAuthTask.execute((Void) null);
+			if(intInfo.isNetworkAvailable(getApplicationContext())){
+				mAuthTask = new UserLoginTask(PrayerLoginActivity.this);
+				mAuthTask.execute((Void) null);
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+				showProgress(false);
+			}
 		}
 	}
 
