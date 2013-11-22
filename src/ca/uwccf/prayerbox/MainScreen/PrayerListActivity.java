@@ -3,6 +3,7 @@ package ca.uwccf.prayerbox.MainScreen;
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.OtherScreen.PrayerAddEditActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerFeedbackActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
 import ca.uwccf.prayerbox.R.menu;
@@ -130,6 +131,10 @@ public class PrayerListActivity extends FragmentActivity implements
 		case R.id.action_addedit:
 			Intent intnt = new Intent(getApplicationContext(),
 					PrayerAddEditActivity.class);
+			startActivity(intnt);
+			return true;
+		case R.id.action_feedback:
+			intnt= new Intent(getApplicationContext(), PrayerFeedbackActivity.class);
 			startActivity(intnt);
 			return true;
 		default:

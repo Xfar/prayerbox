@@ -39,6 +39,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uwccf.prayerbox.PrayerListActivity" />
         </activity>
+        <activity android:name="ca.uwccf.prayerbox.OtherScreen.PrayerFeedbackActivity"
+                  android:parentActivityName="ca.uwccf.prayerbox.MainScreen.PrayerListActivity" >
+                        <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.uwccf.prayerbox.PrayerListActivity" />
+        </activity>
      </application>
 
 </manifest>
