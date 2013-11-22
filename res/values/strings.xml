@@ -14,5 +14,6 @@
     <string name="prompt_feedback">Give us feedback!</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="anonymous">Anonymous</string>
+    <string name="no_internet">Please connect to the internet and try again.</string>
 
 </resources>

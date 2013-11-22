@@ -52,15 +52,20 @@ public class PrayerFeedbackActivity extends Activity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.submit:
-			FeedbackTask feed = new FeedbackTask(getApplicationContext());
-			feedbackView = (EditText) findViewById(R.id.feedback);
-			String message = feedbackView.getText().toString();
-			if(message.isEmpty()){
-				feedbackView.setError(getString(R.string.error_field_required));
+			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
+				FeedbackTask feed = new FeedbackTask(getApplicationContext());
+				feedbackView = (EditText) findViewById(R.id.feedback);
+				String message = feedbackView.getText().toString();
+				if(message.isEmpty()){
+					feedbackView.setError(getString(R.string.error_field_required));
+					return true;
+				}
+				feed.execute(message);
+		    	NavUtils.navigateUpFromSameTask(this);
+			}else {
+				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
 				return true;
 			}
-			feed.execute(message);
-	    	NavUtils.navigateUpFromSameTask(this);
 		default:
 			return super.onOptionsItemSelected(item);
 		}

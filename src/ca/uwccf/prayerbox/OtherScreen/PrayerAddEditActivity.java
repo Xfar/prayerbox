@@ -13,6 +13,7 @@ import org.apache.http.util.EntityUtils;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity.UserLoginTask;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class PrayerAddEditActivity extends Activity {
 
@@ -87,8 +89,12 @@ public class PrayerAddEditActivity extends Activity {
 			mPrayerView.setError(getString(R.string.error_field_required));
 			focusView = mPrayerView;
 		} else {
-			mAddEditTask = new AddEditTask(getApplicationContext());
-			mAddEditTask.execute((Void) null);
+			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
+				mAddEditTask = new AddEditTask(getApplicationContext());
+				mAddEditTask.execute((Void) null);
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+			}
 			return true;
 		}
 		focusView.requestFocus();

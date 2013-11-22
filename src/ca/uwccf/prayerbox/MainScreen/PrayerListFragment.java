@@ -16,6 +16,7 @@ import ca.uwccf.prayerbox.Data.Prayer;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.OtherScreen.PrayerDetailsActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerAddEditActivity.AddEditTask;
 import ca.uwccf.prayerbox.R.layout;
 
 import android.content.Intent;
@@ -27,13 +28,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PrayerListFragment extends ListFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		new GetData().execute("");
+		if(PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity().getApplicationContext())){
+			new GetData().execute("");
+		}else{
+			Toast.makeText(getActivity().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override

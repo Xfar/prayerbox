@@ -1,6 +1,7 @@
 package ca.uwccf.prayerbox.OtherScreen;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.MainScreen.PrayerLogDataHandler;
 import ca.uwccf.prayerbox.R.id;
@@ -14,6 +15,7 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PrayerDetailsActivity extends Activity {
 	private String prayer_id;
@@ -70,20 +72,28 @@ public class PrayerDetailsActivity extends Activity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.details_pluspray:
-			PrayerLogDataHandler data = new PrayerLogDataHandler(
-					this.getApplicationContext(), true);
-			data.execute(prayer_id);
-			MainTabbedFragmentActivity.refresh();
-			mIsAdd = false;
-			invalidateOptionsMenu();
+			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
+				PrayerLogDataHandler data = new PrayerLogDataHandler(
+						this.getApplicationContext(), true);
+				data.execute(prayer_id);
+				MainTabbedFragmentActivity.refresh();
+				mIsAdd = false;
+				invalidateOptionsMenu();
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+			}
 			return true;
 		case R.id.details_delete:
-			PrayerLogDataHandler data_2 = new PrayerLogDataHandler(
-					this.getApplicationContext(), false);
-			data_2.execute(prayer_id);
-			MainTabbedFragmentActivity.refresh();
-			mIsAdd = true;
-			invalidateOptionsMenu();
+			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
+				PrayerLogDataHandler data_2 = new PrayerLogDataHandler(
+						this.getApplicationContext(), false);
+				data_2.execute(prayer_id);
+				MainTabbedFragmentActivity.refresh();
+				mIsAdd = true;
+				invalidateOptionsMenu();
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+			}
 			return true;			
 		}
 		return super.onOptionsItemSelected(item);

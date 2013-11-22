@@ -127,7 +127,11 @@ public class PrayerLogFragment extends ListFragment {
 	}
 
 	public void refresh() {
-		new GetData().execute("");
+		if(PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity().getApplicationContext())){
+			new GetData().execute("");
+		}else{
+			Toast.makeText(getActivity().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
