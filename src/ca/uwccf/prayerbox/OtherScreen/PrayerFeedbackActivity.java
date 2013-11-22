@@ -57,6 +57,7 @@ public class PrayerFeedbackActivity extends Activity {
 			String message = feedbackView.getText().toString();
 			if(message.isEmpty()){
 				feedbackView.setError(getString(R.string.error_field_required));
+				return true;
 			}
 			feed.execute(message);
 	    	NavUtils.navigateUpFromSameTask(this);
