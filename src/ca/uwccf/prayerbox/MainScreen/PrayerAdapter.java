@@ -81,12 +81,12 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 						PrayerLogDataHandler data = new PrayerLogDataHandler(
 								context, true);
 						data.execute(item.prayer_id);
-						((PrayerListActivity) context).refreshPrayerLog();
+						((MainTabbedFragmentActivity) context).refreshPrayerLog();
 					} else {
 						PrayerLogDataHandler data = new PrayerLogDataHandler(
 								context, false);
 						data.execute(item.prayer_id);
-						((PrayerListActivity) context).refreshPrayerLog();
+						((MainTabbedFragmentActivity) context).refreshPrayerLog();
 					}
 
 				}

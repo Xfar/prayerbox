@@ -80,7 +80,7 @@ public class PrayerListFragment extends ListFragment {
 			result = null;
 			try {
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-				nameValuePairs.add(new BasicNameValuePair("username",PrayerListActivity.mUser));
+				nameValuePairs.add(new BasicNameValuePair("username",MainTabbedFragmentActivity.mUser));
 				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = PrayerLoginActivity.client
 						.execute(httpMethod);

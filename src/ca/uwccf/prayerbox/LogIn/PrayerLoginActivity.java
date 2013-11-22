@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.PrayerParser;
-import ca.uwccf.prayerbox.MainScreen.PrayerListActivity;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
 import ca.uwccf.prayerbox.R.menu;
@@ -73,7 +73,7 @@ public class PrayerLoginActivity extends Activity {
 
 		if (sharedPref.contains("session_id")) {
 			Intent intent = new Intent(getApplicationContext(),
-					PrayerListActivity.class);
+					MainTabbedFragmentActivity.class);
 			startActivity(intent);
 			finish();
 		}
@@ -286,7 +286,7 @@ public class PrayerLoginActivity extends Activity {
 				editor.putString("session_id", accountInfo.get("session_id"));
 				editor.commit();
 				Intent intent = new Intent(getApplicationContext(),
-						PrayerListActivity.class);
+						MainTabbedFragmentActivity.class);
 				startActivity(intent);
 				finish();
 			}

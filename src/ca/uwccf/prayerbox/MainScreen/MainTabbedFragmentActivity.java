@@ -19,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
-public class PrayerListActivity extends FragmentActivity implements
+public class MainTabbedFragmentActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
 	private ViewPager viewPager;

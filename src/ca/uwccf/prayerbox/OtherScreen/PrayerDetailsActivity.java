@@ -1,7 +1,7 @@
 package ca.uwccf.prayerbox.OtherScreen;
 
 import ca.uwccf.prayerbox.R;
-import ca.uwccf.prayerbox.MainScreen.PrayerListActivity;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.MainScreen.PrayerLogDataHandler;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
@@ -73,7 +73,7 @@ public class PrayerDetailsActivity extends Activity {
 			PrayerLogDataHandler data = new PrayerLogDataHandler(
 					this.getApplicationContext(), true);
 			data.execute(prayer_id);
-			PrayerListActivity.refresh();
+			MainTabbedFragmentActivity.refresh();
 			mIsAdd = false;
 			invalidateOptionsMenu();
 			return true;
@@ -81,7 +81,7 @@ public class PrayerDetailsActivity extends Activity {
 			PrayerLogDataHandler data_2 = new PrayerLogDataHandler(
 					this.getApplicationContext(), false);
 			data_2.execute(prayer_id);
-			PrayerListActivity.refresh();
+			MainTabbedFragmentActivity.refresh();
 			mIsAdd = true;
 			invalidateOptionsMenu();
 			return true;			

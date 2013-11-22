@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
-import ca.uwccf.prayerbox.MainScreen.PrayerListActivity;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
 import ca.uwccf.prayerbox.R.menu;
@@ -134,7 +134,7 @@ public class PrayerAddEditActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(final String success) {
-			Intent intnt = new Intent(mContext, PrayerListActivity.class);
+			Intent intnt = new Intent(mContext, MainTabbedFragmentActivity.class);
 			startActivity(intnt);
 			finish();
 		}

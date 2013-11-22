@@ -95,7 +95,7 @@ public class PrayerLogFragment extends ListFragment {
 					for(String prayer_id: del_prayers){
 						data.execute(prayer_id);
 					}
-					((PrayerListActivity)getActivity().getApplicationContext()).refreshPrayerLog();
+					((MainTabbedFragmentActivity)getActivity().getApplicationContext()).refreshPrayerLog();
 					mode.finish();
 					break;
 
@@ -182,7 +182,7 @@ public class PrayerLogFragment extends ListFragment {
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
 						2);
 				nameValuePairs.add(new BasicNameValuePair("username",
-						PrayerListActivity.mUser));
+						MainTabbedFragmentActivity.mUser));
 				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = PrayerLoginActivity.client
 						.execute(httpMethod);
