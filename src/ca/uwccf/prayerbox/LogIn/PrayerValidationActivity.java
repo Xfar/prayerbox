@@ -12,6 +12,7 @@ import android.widget.EditText;
 public class PrayerValidationActivity extends Activity {
 	private String mCode = "uwccf";
 	private String mCodeAttempt;
+	private EditText codeView;
 	private SharedPreferences prefs;
 	/** Called when the activity is first created. */
 	@Override
@@ -32,8 +33,8 @@ public class PrayerValidationActivity extends Activity {
 	
 	
 	public void submitCode(){
-		EditText code = (EditText) findViewById(R.id.validate_code);
-		mCodeAttempt = code.getText().toString();
+		codeView = (EditText) findViewById(R.id.validate_code);
+		mCodeAttempt = codeView.getText().toString();
 		if(mCodeAttempt.equalsIgnoreCase(mCode)){
 	        SharedPreferences.Editor prefEditor = prefs.edit();
 	        prefEditor.putBoolean("validated", true);
@@ -42,7 +43,7 @@ public class PrayerValidationActivity extends Activity {
 			startActivity(i);
 			finish();
 		} else {
-			
+			codeView.setError(getString(R.string.error_incorrect_code));
 		}
 	}
 

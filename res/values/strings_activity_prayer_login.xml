@@ -16,5 +16,6 @@
     <string name="error_invalid_password">Password too short</string>
     <string name="error_incorrect_password">Incorrect password</string>
     <string name="error_field_required">Required field</string>
+    <string name="error_incorrect_code">Incorrect Code</string>
 
 </resources>
