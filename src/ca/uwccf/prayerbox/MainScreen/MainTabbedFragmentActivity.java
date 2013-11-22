@@ -120,6 +120,7 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 					ACCOUNT_SERVICE, MODE_PRIVATE);
 			SharedPreferences.Editor manage = sharedPref.edit();
 			manage.clear();
+			manage.putBoolean("validated", true);
 			manage.commit();
 			Intent intent = new Intent(getApplicationContext(),
 					PrayerLoginActivity.class);
