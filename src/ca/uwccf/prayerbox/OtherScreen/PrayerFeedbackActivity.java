@@ -30,13 +30,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class PrayerFeedbackActivity extends Activity {
-
+	private EditText feedbackView;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_feedback);
-	    // TODO Auto-generated method stub
 	}
 	
 	@Override
@@ -48,15 +47,17 @@ public class PrayerFeedbackActivity extends Activity {
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.submit:
 			FeedbackTask feed = new FeedbackTask(getApplicationContext());
-			EditText feedback = (EditText) findViewById(R.id.feedback);
-			String message = feedback.getText().toString();
+			feedbackView = (EditText) findViewById(R.id.feedback);
+			String message = feedbackView.getText().toString();
+			if(message.isEmpty()){
+				feedbackView.setError(getString(R.string.error_field_required));
+			}
 			feed.execute(message);
 	    	NavUtils.navigateUpFromSameTask(this);
 		default:

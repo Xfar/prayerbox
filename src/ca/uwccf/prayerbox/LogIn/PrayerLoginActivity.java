@@ -70,7 +70,12 @@ public class PrayerLoginActivity extends Activity {
 		SharedPreferences sharedPref = this.getSharedPreferences(
 				ACCOUNT_SERVICE, MODE_PRIVATE);
 		client = new DefaultHttpClient();
-
+		if(!sharedPref.getBoolean("validated", false)){
+			Intent intent = new Intent(getApplicationContext(),
+					PrayerValidationActivity.class);
+			startActivity(intent);
+			finish();
+		}
 		if (sharedPref.contains("session_id")) {
 			Intent intent = new Intent(getApplicationContext(),
 					MainTabbedFragmentActivity.class);
