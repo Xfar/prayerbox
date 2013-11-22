@@ -91,11 +91,13 @@ public class PrayerLogFragment extends ListFragment {
 							del_prayers.add(selectedItem.prayer_id);
 						}
 					}
-					PrayerLogDataHandler data = new PrayerLogDataHandler(getActivity(), false);
-					for(String prayer_id: del_prayers){
+					PrayerLogDataHandler data = new PrayerLogDataHandler(
+							getActivity(), false);
+					for (String prayer_id : del_prayers) {
 						data.execute(prayer_id);
 					}
-					((MainTabbedFragmentActivity)getActivity().getApplicationContext()).refreshPrayerLog();
+					((MainTabbedFragmentActivity) getActivity()
+							.getApplicationContext()).refreshPrayerLog();
 					mode.finish();
 					break;
 
@@ -127,10 +129,12 @@ public class PrayerLogFragment extends ListFragment {
 	}
 
 	public void refresh() {
-		if(PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity().getApplicationContext())){
+		if (PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity()
+				.getApplicationContext())) {
 			new GetData().execute("");
-		}else{
-			Toast.makeText(getActivity().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+		} else {
+			// Toast.makeText(getActivity().getApplicationContext(),
+			// R.string.no_internet, Toast.LENGTH_SHORT).show();
 		}
 	}
 

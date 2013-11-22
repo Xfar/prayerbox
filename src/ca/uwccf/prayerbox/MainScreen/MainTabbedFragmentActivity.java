@@ -1,13 +1,5 @@
 package ca.uwccf.prayerbox.MainScreen;
 
-import ca.uwccf.prayerbox.R;
-import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
-import ca.uwccf.prayerbox.OtherScreen.PrayerAddEditActivity;
-import ca.uwccf.prayerbox.OtherScreen.PrayerFeedbackActivity;
-import ca.uwccf.prayerbox.R.id;
-import ca.uwccf.prayerbox.R.layout;
-import ca.uwccf.prayerbox.R.menu;
-import ca.uwccf.prayerbox.R.string;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
@@ -18,9 +10,19 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerInternetInfo;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerAddEditActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerFeedbackActivity;
 
 public class MainTabbedFragmentActivity extends FragmentActivity implements
 		ActionBar.TabListener {
+
+	public static PrayerInternetInfo intInfo;
+
+	public MenuItem menuItemRefresh;
 
 	private ViewPager viewPager;
 	static private PrayerListTabsPagerAdapter mAdapter;
@@ -33,8 +35,8 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 	public void refreshPrayerLog() {
 		((PrayerLogFragment) mAdapter.getItem(1)).refresh();
 	}
-	
-	static public void refresh(){
+
+	static public void refresh() {
 		((PrayerListFragment) mAdapter.getItem(0)).refresh();
 		((PrayerLogFragment) mAdapter.getItem(1)).refresh();
 	}
@@ -42,9 +44,9 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
+
 		setContentView(R.layout.activity_prayer_list);
 		// Initialization
 		SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE,
@@ -52,6 +54,8 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 		mUser = prefs.getString("user", "");
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
+		intInfo = new PrayerInternetInfo();
+
 		mAdapter = new PrayerListTabsPagerAdapter(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
@@ -72,7 +76,7 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 			public void onPageSelected(int position) {
 				// On changing fragments, make respective tab selected
 				actionBar.setSelectedNavigationItem(position);
-				
+
 				if (newItemsStarred) {
 					refreshPrayerLog();
 				}
@@ -108,6 +112,13 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 		getMenuInflater().inflate(R.menu.prayer_list, menu);
 		ActionBar bar = this.getActionBar();
 		bar.setTitle(R.string.app_name);
+		menuItemRefresh = menu.findItem(R.id.action_refresh);
+		if (intInfo.isNetworkAvailable(getApplicationContext())) {
+			menuItemRefresh.setVisible(false);
+		} else {
+			menuItemRefresh.setVisible(true);
+		}
+
 		return true;
 	}
 
@@ -129,13 +140,24 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 			startActivity(intent);
 			finish();
 			return true;
+		case R.id.action_refresh:
+			if (intInfo.isNetworkAvailable(getApplicationContext())) {
+				menuItemRefresh.setVisible(false);
+				refresh();
+			} else {
+				menuItemRefresh.setVisible(true);
+				Toast.makeText(getApplicationContext(), R.string.no_internet,
+						Toast.LENGTH_SHORT).show();
+			}
+			return true;
 		case R.id.action_addedit:
 			Intent intnt = new Intent(getApplicationContext(),
 					PrayerAddEditActivity.class);
 			startActivity(intnt);
 			return true;
 		case R.id.action_feedback:
-			intnt= new Intent(getApplicationContext(), PrayerFeedbackActivity.class);
+			intnt = new Intent(getApplicationContext(),
+					PrayerFeedbackActivity.class);
 			startActivity(intnt);
 			return true;
 		default:

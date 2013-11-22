@@ -35,10 +35,12 @@ public class PrayerListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity().getApplicationContext())){
+		if (PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity()
+				.getApplicationContext())) {
 			new GetData().execute("");
-		}else{
-			Toast.makeText(getActivity().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(),
+					R.string.no_internet, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -77,6 +79,7 @@ public class PrayerListFragment extends ListFragment {
 
 	private class GetData extends AsyncTask<String, Void, String> {
 		private String result;
+
 		// private ProgressDialog Dialog = new ProgressDialog(getActivity());
 		@Override
 		protected String doInBackground(String... params) {
@@ -86,7 +89,8 @@ public class PrayerListFragment extends ListFragment {
 			result = null;
 			try {
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-				nameValuePairs.add(new BasicNameValuePair("username",MainTabbedFragmentActivity.mUser));
+				nameValuePairs.add(new BasicNameValuePair("username",
+						MainTabbedFragmentActivity.mUser));
 				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = PrayerLoginActivity.client
 						.execute(httpMethod);

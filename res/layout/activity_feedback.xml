@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
     android:orientation="vertical"
-    android:padding="16dp" >
+    android:padding="16dp"
+    android:scrollbars="vertical" >
+
     <CheckBox
-         android:id="@+id/anonCheck"
-         android:layout_width="wrap_content"
-         android:layout_height="48dp"
-         android:text="@string/anonymous" />
+        android:id="@+id/anonCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/anonymous" />
+
     <EditText
         android:id="@+id/feedback"
         android:layout_width="match_parent"
@@ -18,6 +20,9 @@
         android:ems="10"
         android:hint="@string/prompt_feedback"
         android:inputType="textMultiLine"
-        android:minHeight="48dp"><requestFocus/></EditText>
+        android:minHeight="48dp" >
+
+        <requestFocus />
+    </EditText>
 
 </LinearLayout>
