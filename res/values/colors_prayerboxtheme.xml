@@ -19,4 +19,5 @@
 
 <resources>
     <color name="pressed_prayerboxtheme">#CCE7C52E</color>
+    <color name="yellow_prayer_box">#E7C52E</color>
 </resources>
