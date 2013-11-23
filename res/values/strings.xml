@@ -10,7 +10,8 @@
     <string name="action_pluspray">+Pray</string>
     <string name="prompt_validate">Code</string>
     <string name="action_validate">Validate</string>
-    <string name="action_forgot_password_request">Request Password</string>
+    <string name="forgot_password_button">Forgot Password?</string>
+    <string name="action_forgot_password_request">Reset Password</string>
     <string name="prompt_feedback">Give us feedback!</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="anonymous">Anonymous</string>

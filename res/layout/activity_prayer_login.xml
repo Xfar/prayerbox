@@ -92,6 +92,16 @@
             android:focusable="true"
             android:text="@string/action_sign_up_register"
             android:textStyle="bold" />
+        
+         <Button
+       		android:id="@+id/forgot_pass_button"
+            android:layout_width="240dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:text="@string/forgot_password_button"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ImageButton

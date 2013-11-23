@@ -127,7 +127,16 @@ public class PrayerLoginActivity extends Activity {
 						Intent i = new Intent(getApplicationContext(), PrayerSignUpActivity.class);
 						startActivity(i);
 					}
+					
 				});
+		findViewById(R.id.forgot_pass_button).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), PrayerResetPasswordActivity.class);
+				startActivity(i);				
+			}
+		});
 
 		findViewById(R.id.prayerbox_logo).setOnClickListener(
 				new OnClickListener() {
