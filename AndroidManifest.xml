@@ -48,6 +48,7 @@
                 android:value="com.uwccf.prayerbox.PrayerListActivity" />
         </activity>
         <activity android:name=".LogIn.PrayerValidationActivity"></activity>
+        <activity android:name="ca.uwccf.prayerbox.LogIn.PrayerSignUpActivity"></activity>
      </application>
 
 </manifest>

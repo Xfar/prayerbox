@@ -82,6 +82,16 @@
             android:focusable="true"
             android:text="@string/action_sign_in_register"
             android:textStyle="bold" />
+        
+        <Button
+       		android:id="@+id/sign_up_button"
+            android:layout_width="240dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:text="@string/action_sign_up_register"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ImageButton
@@ -92,5 +102,6 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/uwccf_logo_official"
         android:clickable="true" />
+ 
 
 </merge>

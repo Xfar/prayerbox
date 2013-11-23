@@ -53,10 +53,11 @@
             android:hint="@string/prompt_displayname"
             android:inputType="text"
             android:maxLines="1"
+            android:imeOptions="actionGo"
             android:singleLine="true" />
 
         <Button
-            android:id="@+id/sign_in_button"
+            android:id="@+id/sign_up_button"
             android:layout_width="240dp"
             android:layout_height="48dp"
             android:layout_gravity="center"

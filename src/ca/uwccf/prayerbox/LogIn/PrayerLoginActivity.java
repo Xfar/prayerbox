@@ -119,6 +119,15 @@ public class PrayerLoginActivity extends Activity {
 						attemptLogin();
 					}
 				});
+		
+		findViewById(R.id.sign_up_button).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent i = new Intent(getApplicationContext(), PrayerSignUpActivity.class);
+						startActivity(i);
+					}
+				});
 
 		findViewById(R.id.prayerbox_logo).setOnClickListener(
 				new OnClickListener() {
