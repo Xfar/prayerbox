@@ -51,7 +51,7 @@
     </style>
 
     <style name="EditTextPrayerBox" parent="@android:style/Widget.Holo.Light.EditText">
-        <item name="android:textCursorDrawable">@color/yellow_prayer_box</item>
+        <item name="android:textCursorDrawable">@drawable/text_cursor_prayerbox</item>
     </style>
 
     <style name="TabPrayerBoxTheme">
