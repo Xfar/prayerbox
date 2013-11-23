@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <color name="white_opaque">#FFFFFFFF</color>
+
+    <style name="PrayerBoxTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowBackground">@color/white_opaque</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+        <item name="android:editTextStyle">@style/EditTextPrayerBox</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewPrayerBoxTheme</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>
+        <item name="android:buttonStyle">@style/ButtonPrayerBoxTheme</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_prayerboxtheme</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_background_prayerboxtheme</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Prayerboxtheme</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Prayerboxtheme</item>
+        <!-- <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Prayerboxtheme</item> -->
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Prayerboxtheme</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Prayerboxtheme</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_prayerboxtheme</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_prayerboxtheme</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Prayerboxtheme</item>
+        <item name="android:actionBarWidgetTheme">@style/DropDownListView.Prayerboxtheme</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonPrayerBoxTheme</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerPrayerBoxTheme</item>
+        <item name="android:tabWidgetStyle">@style/TabWidgetPrayerBoxTheme</item>
+        <item name="android:actionBarTabStyle">@style/TabPrayerBoxTheme</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarPrayerBoxTheme</item>
+        <item name="android:seekBarStyle">@style/SeekBarPrayerBoxTheme</item>
+        <item name="android:ratingBarStyle">@style/RatingBarPrayerBoxTheme</item>
+        <item name="android:ratingBarStyleIndicator">@style/RatingBarBigPrayerBoxTheme</item>
+        <item name="android:ratingBarStyleSmall">@style/RatingBarSmallPrayerBoxTheme</item>
+        <item name="android:buttonStyleToggle">@style/TogglePrayerBoxTheme</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
+
+        <!-- <item name="numberPickerStyle">@style/NumberPickerPrayerBoxTheme</item> -->
+
+    </style>
+
+</resources>
