@@ -21,7 +21,9 @@ import ca.uwccf.prayerbox.R.layout;
 import ca.uwccf.prayerbox.R.menu;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -86,18 +88,12 @@ public class PrayerLogFragment extends ListFragment {
 						if (selected.valueAt(i)) {
 							Prayer selectedItem = (Prayer) getListAdapter()
 									.getItem(selected.keyAt(i));
-							// delete(selectedItem);
-
 							del_prayers.add(selectedItem.prayer_id);
 						}
 					}
-					PrayerLogDataHandler data = new PrayerLogDataHandler(
-							getActivity(), false);
-					for (String prayer_id : del_prayers) {
-						data.execute(prayer_id);
-					}
-					((MainTabbedFragmentActivity) getActivity()
-							.getApplicationContext()).refreshPrayerLog();
+					PrayerDeleteMultHandler data = new PrayerDeleteMultHandler(
+							getActivity());
+					data.execute(del_prayers);
 					mode.finish();
 					break;
 
@@ -131,10 +127,7 @@ public class PrayerLogFragment extends ListFragment {
 	public void refresh() {
 		if (PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity()
 				.getApplicationContext())) {
-			new GetData().execute("");
-		} else {
-			// Toast.makeText(getActivity().getApplicationContext(),
-			// R.string.no_internet, Toast.LENGTH_SHORT).show();
+			new PrayerLogData().execute("");
 		}
 	}
 
@@ -176,8 +169,48 @@ public class PrayerLogFragment extends ListFragment {
 
 		startActivity(nextScreen);
 	}
+	private class PrayerDeleteMultHandler extends
+	AsyncTask<ArrayList<String>, Void, String> {
+		private String result;
+		private Context mContext;
+		private String mUser;
 
-	private class GetData extends AsyncTask<String, Void, String> {
+	public PrayerDeleteMultHandler(Context context) {
+		mContext = context;
+	}
+	
+	@Override
+	protected String doInBackground(ArrayList<String>... arg0) {
+		try {
+			String url;
+			url = "http://www.uwccf.ca/prayerbox/api/prayerlistdelmultproc.php";
+			HttpPost httpMethod = new HttpPost(url);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			SharedPreferences prefs = mContext.getApplicationContext().getSharedPreferences("account", 0);
+			String user = prefs.getString("user","");
+			nameValuePairs.add(new BasicNameValuePair("user", user));
+			for(String pid: arg0[0]){
+				nameValuePairs.add(new BasicNameValuePair("prayer_ids[]", pid));	
+			}
+			httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = PrayerLoginActivity.client
+					.execute(httpMethod);
+			HttpEntity entity = response.getEntity();
+			result = EntityUtils.toString(entity);
+			return result;
+		} catch (Exception e) {
+	
+		}
+		return null;
+	}
+	@Override
+	protected void onPostExecute(String result) {
+		refresh();
+	}
+	
+}
+
+	private class PrayerLogData extends AsyncTask<String, Void, String> {
 		private String result;
 
 		// private ProgressDialog Dialog = new ProgressDialog(getActivity());
@@ -205,8 +238,6 @@ public class PrayerLogFragment extends ListFragment {
 
 		@Override
 		protected void onPreExecute() {
-			// Dialog.setMessage("Loading Prayer Requests...");
-			// Dialog.show();
 			getActivity().setProgressBarIndeterminateVisibility(true);
 		}
 
