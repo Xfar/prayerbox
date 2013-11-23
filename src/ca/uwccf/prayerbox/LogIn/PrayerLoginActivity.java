@@ -13,15 +13,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import ca.uwccf.prayerbox.R;
-import ca.uwccf.prayerbox.Data.PrayerInternetInfo;
-import ca.uwccf.prayerbox.Data.PrayerParser;
-import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
-import ca.uwccf.prayerbox.R.id;
-import ca.uwccf.prayerbox.R.layout;
-import ca.uwccf.prayerbox.R.menu;
-import ca.uwccf.prayerbox.R.string;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -29,8 +20,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -45,6 +34,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerInternetInfo;
+import ca.uwccf.prayerbox.Data.PrayerParser;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -86,6 +79,7 @@ public class PrayerLoginActivity extends Activity {
 			Intent intent = new Intent(getApplicationContext(),
 					MainTabbedFragmentActivity.class);
 			startActivity(intent);
+			overridePendingTransition(0, 0);
 			finish();
 		}
 
@@ -126,6 +120,7 @@ public class PrayerLoginActivity extends Activity {
 					public void onClick(View view) {
 						Intent i = new Intent(getApplicationContext(), PrayerSignUpActivity.class);
 						startActivity(i);
+						overridePendingTransition(0, 0);
 					}
 					
 				});
@@ -134,7 +129,8 @@ public class PrayerLoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(), PrayerResetPasswordActivity.class);
-				startActivity(i);				
+				startActivity(i);	
+				overridePendingTransition(0, 0);
 			}
 		});
 
