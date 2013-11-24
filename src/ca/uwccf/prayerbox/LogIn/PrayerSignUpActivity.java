@@ -55,7 +55,7 @@ public class PrayerSignUpActivity extends Activity {
 		mEmailView.requestFocus();
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mDisplayNameView = (EditText) findViewById(R.id.displayname);
-
+		mEmailView.requestFocus();
 		mDisplayNameView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
@@ -102,11 +102,14 @@ public class PrayerSignUpActivity extends Activity {
 			mEmailView.setError(getString(R.string.error_invalid_email));
 			error = true;
 		}
-		if (error) {
+		if(!PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
+			PrayerLoginActivity.intInfo.noInternetToast(getApplicationContext());
 			return;
 		}
-		UserSignUpTask userSignUp = new UserSignUpTask(getApplicationContext());
-		userSignUp.execute();
+		if(!error){
+			UserSignUpTask userSignUp = new UserSignUpTask(getApplicationContext());
+			userSignUp.execute();
+		}
 	}
 
 	public class UserSignUpTask extends AsyncTask<Void, Void, String> {

@@ -77,20 +77,22 @@ public class PrayerResetPasswordActivity extends Activity {
 			mEmailView.setError(getString(R.string.error_invalid_email));
 			error = true;
 		}
-		if (error) {
+		if(!PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
+			PrayerLoginActivity.intInfo.noInternetToast(getApplicationContext());
 			return;
 		}
-
-		LostPasswordTask passTask = new LostPasswordTask(
-				getApplicationContext());
-		passTask.execute();
+		if(!error){
+			ResetPasswordTask passTask = new ResetPasswordTask(
+					getApplicationContext());
+			passTask.execute();
+		}
 	}
 
-	public class LostPasswordTask extends AsyncTask<Void, Void, String> {
+	public class ResetPasswordTask extends AsyncTask<Void, Void, String> {
 		private String result;
 		private Context mContext;
 
-		public LostPasswordTask(Context context) {
+		public ResetPasswordTask(Context context) {
 			mContext = context;
 		}
 

@@ -39,8 +39,7 @@ public class PrayerListFragment extends ListFragment {
 				.getApplicationContext())) {
 			new GetData().execute("");
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(),
-					R.string.no_internet, Toast.LENGTH_SHORT).show();
+			PrayerLoginActivity.intInfo.noInternetToast(getActivity().getApplicationContext());
 		}
 	}
 

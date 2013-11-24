@@ -47,9 +47,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uwccf.prayerbox.PrayerListActivity" />
         </activity>
-        <activity android:name="ca.uwccf.prayerbox.LogIn.PrayerValidationActivity"></activity>
-        <activity android:name="ca.uwccf.prayerbox.LogIn.PrayerSignUpActivity"></activity>
-        <activity android:name=".LogIn.PrayerResetPasswordActivity"></activity>
+        <activity android:name="ca.uwccf.prayerbox.LogIn.PrayerValidationActivity"
+                  android:windowSoftInputMode="stateVisible|adjustPan"></activity>
+        <activity android:name="ca.uwccf.prayerbox.LogIn.PrayerSignUpActivity"
+                  android:windowSoftInputMode="stateVisible|adjustPan"></activity>
+        <activity android:name=".LogIn.PrayerResetPasswordActivity"
+                  android:windowSoftInputMode="stateVisible|adjustPan"></activity>
      </application>
 
 </manifest>

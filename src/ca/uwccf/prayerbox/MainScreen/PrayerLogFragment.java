@@ -91,10 +91,14 @@ public class PrayerLogFragment extends ListFragment {
 							del_prayers.add(selectedItem.prayer_id);
 						}
 					}
-					PrayerDeleteMultHandler data = new PrayerDeleteMultHandler(
-							getActivity());
-					data.execute(del_prayers);
-					mode.finish();
+					if(PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity().getApplicationContext())){
+						PrayerDeleteMultHandler data = new PrayerDeleteMultHandler(
+								getActivity());
+						data.execute(del_prayers);
+						mode.finish();
+					} else {
+						PrayerLoginActivity.intInfo.noInternetToast(getActivity().getApplicationContext());
+					}
 					break;
 
 				}
@@ -243,13 +247,15 @@ public class PrayerLogFragment extends ListFragment {
 
 		@Override
 		protected void onPostExecute(String result) {
-			PrayerParser pray_parser = new PrayerParser(result);
-			ArrayList<Prayer> prayer_list = pray_parser.parsePrayerList();
-			PrayerAdapter prayerAdapter = new PrayerAdapter(getActivity(),
-					prayer_list, true);
-			setListAdapter(prayerAdapter);
-			// Dialog.dismiss();
-			getActivity().setProgressBarIndeterminateVisibility(false);
+			if(!result.isEmpty()){
+				PrayerParser pray_parser = new PrayerParser(result);
+				ArrayList<Prayer> prayer_list = pray_parser.parsePrayerList();
+				PrayerAdapter prayerAdapter = new PrayerAdapter(getActivity(),
+						prayer_list, true);
+				setListAdapter(prayerAdapter);
+				// Dialog.dismiss();
+				getActivity().setProgressBarIndeterminateVisibility(false);
+			}
 		}
 	}
 

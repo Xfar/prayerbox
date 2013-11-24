@@ -1,79 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/signup_form"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="48dp" >
-
-        <ImageButton
-            android:id="@+id/prayerbox_logo"
-            android:layout_width="236dp"
-            android:layout_height="46dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/prayerbox_login_logo"
-            android:clickable="true" />
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="240dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="48dp"
-            android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:singleLine="true" >
-        </EditText>
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="240dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:hint="@string/prompt_password"
-            android:imeActionId="@+id/login"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionUnspecified"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/displayname"
-            android:layout_width="240dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:hint="@string/prompt_displayname"
-            android:inputType="text"
-            android:maxLines="1"
-            android:imeOptions="actionGo"
-            android:singleLine="true" />
-
-        <Button
-            android:id="@+id/sign_up_button"
-            android:layout_width="240dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="@string/action_sign_up_register"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/uwccf_logo_button"
-        android:layout_width="186dp"
-        android:layout_height="49dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/uwccf_logo_official"
-        android:clickable="true" />
-
+<RelativeLayout 
+        xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/signup_form"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:paddingTop="48dp" >
+	
+	        <ImageButton
+	            android:id="@+id/prayerbox_logo"
+	            android:layout_width="236dp"
+	            android:layout_height="46dp"
+	            android:layout_gravity="center_horizontal"
+	            android:background="@drawable/prayerbox_login_logo"
+	            android:clickable="true" />
+	
+	        <EditText
+	            android:id="@+id/email"
+	            android:layout_width="240dp"
+	            android:layout_height="48dp"
+	            android:layout_gravity="center"
+	            android:layout_marginTop="48dp"
+	            android:hint="@string/prompt_email"
+	            android:inputType="textEmailAddress"
+	            android:maxLines="1"
+	            android:singleLine="true" >
+	        </EditText>
+	
+	        <EditText
+	            android:id="@+id/password"
+	            android:layout_width="240dp"
+	            android:layout_height="48dp"
+	            android:layout_gravity="center"
+	            android:layout_marginTop="8dp"
+	            android:hint="@string/prompt_password"
+	            android:imeActionId="@+id/login"
+	            android:imeActionLabel="@string/action_sign_in_short"
+	            android:imeOptions="actionUnspecified"
+	            android:inputType="textPassword"
+	            android:maxLines="1"
+	            android:singleLine="true" />
+	
+	        <EditText
+	            android:id="@+id/displayname"
+	            android:inputType="textPersonName"
+	            android:layout_width="240dp"
+	            android:layout_height="48dp"
+	            android:layout_gravity="center"
+	            android:layout_marginTop="8dp"
+	            android:hint="@string/prompt_displayname"
+	            android:maxLines="1"
+	            android:imeOptions="actionGo"
+	            android:singleLine="true" />
+	
+	        <Button
+	            android:id="@+id/sign_up_button"
+	            android:layout_width="240dp"
+	            android:layout_height="48dp"
+	            android:layout_gravity="center"
+	            android:layout_marginTop="8dp"
+	            android:text="@string/action_sign_up_register"
+	            android:textStyle="bold" />
+	    </LinearLayout>
+	
+	    <ImageButton
+	        android:id="@+id/uwccf_logo_button"
+	        android:layout_width="186dp"
+	        android:layout_height="49dp"
+	        android:layout_alignParentBottom="true"
+	        android:baselineAlignBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginBottom="8dp"
+	        android:background="@drawable/uwccf_logo_official"
+	        android:clickable="true" />
+	
 </RelativeLayout>
