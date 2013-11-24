@@ -118,7 +118,7 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 		} else {
 			menuItemRefresh.setVisible(true);
 		}
-		
+
 		return true;
 	}
 
