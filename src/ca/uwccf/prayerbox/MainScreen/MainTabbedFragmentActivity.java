@@ -74,7 +74,6 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 
 			@Override
 			public void onPageSelected(int position) {
-				// On changing fragments, make respective tab selected
 				actionBar.setSelectedNavigationItem(position);
 
 				if (newItemsStarred) {

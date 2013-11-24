@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.Prayer;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
 
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PrayerAdapter extends ArrayAdapter<Prayer> {
 
@@ -76,19 +78,27 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 
 				@Override
 				public void onClick(View v) {
-
 					if (star.isChecked()) {
-						PrayerLogDataHandler data = new PrayerLogDataHandler(
-								context, true);
-						data.execute(item.prayer_id);
-						((MainTabbedFragmentActivity) context).refreshPrayerLog();
+						if(!PrayerLoginActivity.intInfo.isNetworkAvailable(getContext().getApplicationContext())){
+							star.setChecked(false);
+							Toast.makeText(getContext().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+						}
+							PrayerLogDataHandler data = new PrayerLogDataHandler(
+									context, true);
+							data.execute(item.prayer_id);
+							((MainTabbedFragmentActivity) context).refreshPrayerLog();
+							item.isStarred = true;
 					} else {
+						if(!PrayerLoginActivity.intInfo.isNetworkAvailable(getContext().getApplicationContext())){
+							star.setChecked(true);
+							Toast.makeText(getContext().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
+						}
 						PrayerLogDataHandler data = new PrayerLogDataHandler(
 								context, false);
 						data.execute(item.prayer_id);
 						((MainTabbedFragmentActivity) context).refreshPrayerLog();
+						item.isStarred = false;
 					}
-
 				}
 
 			});
