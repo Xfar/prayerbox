@@ -1,13 +1,5 @@
 package ca.uwccf.prayerbox.OtherScreen;
 
-import ca.uwccf.prayerbox.R;
-import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
-import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
-import ca.uwccf.prayerbox.MainScreen.PrayerLogDataHandler;
-import ca.uwccf.prayerbox.R.id;
-import ca.uwccf.prayerbox.R.layout;
-import ca.uwccf.prayerbox.R.menu;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
+import ca.uwccf.prayerbox.MainScreen.PrayerLogDataHandler;
 
 public class PrayerDetailsActivity extends Activity {
 	private String prayer_id;
 	private boolean mIsAdd;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

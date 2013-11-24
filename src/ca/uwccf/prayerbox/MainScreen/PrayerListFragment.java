@@ -107,7 +107,6 @@ public class PrayerListFragment extends ListFragment {
 		protected void onPreExecute() {
 			// Dialog.setMessage("Loading Prayer Requests...");
 			// Dialog.show();
-			getActivity().setProgressBarIndeterminateVisibility(true);
 		}
 
 		@Override
@@ -118,7 +117,6 @@ public class PrayerListFragment extends ListFragment {
 					prayer_list, false);
 			setListAdapter(prayerAdapter);
 			// Dialog.dismiss();
-			getActivity().setProgressBarIndeterminateVisibility(false);
 		}
 	}
 

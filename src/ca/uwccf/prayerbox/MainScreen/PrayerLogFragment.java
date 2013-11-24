@@ -238,7 +238,6 @@ public class PrayerLogFragment extends ListFragment {
 
 		@Override
 		protected void onPreExecute() {
-			getActivity().setProgressBarIndeterminateVisibility(true);
 		}
 
 		@Override
@@ -249,7 +248,6 @@ public class PrayerLogFragment extends ListFragment {
 					prayer_list, true);
 			setListAdapter(prayerAdapter);
 			// Dialog.dismiss();
-			getActivity().setProgressBarIndeterminateVisibility(false);
 		}
 	}
 
