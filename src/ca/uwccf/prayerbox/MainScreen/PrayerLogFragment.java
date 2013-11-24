@@ -205,7 +205,7 @@ public class PrayerLogFragment extends ListFragment {
 	}
 	@Override
 	protected void onPostExecute(String result) {
-		refresh();
+		((MainTabbedFragmentActivity) getActivity()).refresh();
 	}
 	
 }
