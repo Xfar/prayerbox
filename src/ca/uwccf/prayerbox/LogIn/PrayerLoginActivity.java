@@ -158,7 +158,6 @@ public class PrayerLoginActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.prayer_login, menu);
 		return true;
 	}
 
