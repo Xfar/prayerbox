@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+
     <item
         android:id="@+id/details_pluspray"
+        android:icon="@drawable/plus_pray_clear"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_pluspray"
         android:titleCondensed="+Pray">
     </item>
-    
     <item
         android:id="@+id/details_delete"
-        android:icon="@drawable/ic_action_delete"
+        android:icon="@drawable/plus_pray_filled"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_delete"
-        android:titleCondensed="Delete">
+        android:titleCondensed="+Pray">
     </item>
 
 </menu>
