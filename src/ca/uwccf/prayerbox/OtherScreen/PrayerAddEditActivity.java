@@ -23,6 +23,7 @@ import ca.uwccf.prayerbox.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -40,6 +41,7 @@ public class PrayerAddEditActivity extends Activity {
 	private String mSubject;
 	private EditText mSubjectView;
 	private String mPrayer;
+	private String mUser;
 	private EditText mPrayerView;
 	private AddEditTask mAddEditTask;
 
@@ -53,6 +55,8 @@ public class PrayerAddEditActivity extends Activity {
 
 		mPrayerView = (EditText) findViewById(R.id.prayer);
 		mSubjectView = (EditText) findViewById(R.id.subject);
+		SharedPreferences prefs = getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+		mUser = prefs.getString("user", "");
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(mSubjectView, InputMethodManager.SHOW_IMPLICIT);
 	}
@@ -118,6 +122,8 @@ public class PrayerAddEditActivity extends Activity {
 						3);
 				nameValuePairs.add(new BasicNameValuePair("subjectInput",
 						mSubject));
+				nameValuePairs.add(new BasicNameValuePair("user",
+						mUser));
 				nameValuePairs.add(new BasicNameValuePair("requestInput",
 						mPrayer));
 				nameValuePairs.add(new BasicNameValuePair("type", "request"));
