@@ -1,7 +1,9 @@
 package ca.uwccf.prayerbox.MainScreen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,6 +12,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.Prayer;
@@ -92,9 +100,35 @@ public class PrayerLogFragment extends ListFragment {
 						}
 					}
 					if(PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity().getApplicationContext())){
-						PrayerDeleteMultHandler data = new PrayerDeleteMultHandler(
-								getActivity());
-						data.execute(del_prayers);
+						final ArrayList<String> plist = del_prayers;
+						SharedPreferences prefs = getActivity().getSharedPreferences("account", 0);
+						final String user = prefs.getString("user","");
+						StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.prayer_log_del_mult_url),
+								new Response.Listener<String>() {
+							        @Override
+							        public void onResponse(String result) {
+							        	MainTabbedFragmentActivity.refresh();
+							        }
+							    },
+							    new Response.ErrorListener() {
+							        @Override
+							        public void onErrorResponse(VolleyError error) {
+							        }
+							    }){
+							    @Override
+							    protected Map<String, String> getParams() throws AuthFailureError {
+							        Map<String, String> map = new HashMap<String, String>();
+									map.put("user", user);
+									String prayerids = "";
+									for(String pid: plist){
+										prayerids += pid + ",";
+									}
+									prayerids.substring(0, prayerids.length()-1);
+									map.put("prayer_ids",prayerids);
+							        return map;
+							    }
+							};
+						PrayerLoginActivity.queue.add(request);
 						mode.finish();
 					} else {
 						PrayerLoginActivity.intInfo.noInternetToast(getActivity().getApplicationContext());
@@ -131,7 +165,32 @@ public class PrayerLogFragment extends ListFragment {
 	public void refresh() {
 		if (PrayerLoginActivity.intInfo.isNetworkAvailable(getActivity()
 				.getApplicationContext())) {
-			new PrayerLogData().execute("");
+			getActivity().setProgressBarIndeterminateVisibility(true);
+			StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.prayer_log_url),
+				new Response.Listener<String>() {
+			        @Override
+			        public void onResponse(String result) {
+						PrayerParser pray_parser = new PrayerParser(result);
+						ArrayList<Prayer> prayer_list = pray_parser.parsePrayerList();
+						PrayerAdapter prayerAdapter = new PrayerAdapter(getActivity(),
+								prayer_list, true);
+						setListAdapter(prayerAdapter);
+						getActivity().setProgressBarIndeterminateVisibility(false);
+			        }
+			    },
+			    new Response.ErrorListener() {
+			        @Override
+			        public void onErrorResponse(VolleyError error) {
+			        }
+			    }){
+			    @Override
+			    protected Map<String, String> getParams() throws AuthFailureError {
+			        Map<String, String> map = new HashMap<String, String>();
+			        map.put("username", MainTabbedFragmentActivity.mUser);
+			        return map;
+			    }
+			};
+			PrayerLoginActivity.queue.add(request);
 		}
 	}
 
@@ -172,91 +231,6 @@ public class PrayerLogFragment extends ListFragment {
 		nextScreen.putExtra("prayer_id", prayer_id);
 
 		startActivity(nextScreen);
-	}
-	private class PrayerDeleteMultHandler extends
-	AsyncTask<ArrayList<String>, Void, String> {
-		private String result;
-		private Context mContext;
-		private String mUser;
-
-	public PrayerDeleteMultHandler(Context context) {
-		mContext = context;
-	}
-	
-	@Override
-	protected String doInBackground(ArrayList<String>... arg0) {
-		try {
-			String url;
-			url = "http://www.uwccf.ca/prayerbox/api/prayerlistdelmultproc.php";
-			HttpPost httpMethod = new HttpPost(url);
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			SharedPreferences prefs = mContext.getApplicationContext().getSharedPreferences("account", 0);
-			String user = prefs.getString("user","");
-			nameValuePairs.add(new BasicNameValuePair("user", user));
-			for(String pid: arg0[0]){
-				nameValuePairs.add(new BasicNameValuePair("prayer_ids[]", pid));	
-			}
-			httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = PrayerLoginActivity.client
-					.execute(httpMethod);
-			HttpEntity entity = response.getEntity();
-			result = EntityUtils.toString(entity);
-			return result;
-		} catch (Exception e) {
-	
-		}
-		return null;
-	}
-	@Override
-	protected void onPostExecute(String result) {
-		((MainTabbedFragmentActivity) getActivity()).refresh();
-	}
-	
-}
-
-	private class PrayerLogData extends AsyncTask<String, Void, String> {
-		private String result;
-
-		// private ProgressDialog Dialog = new ProgressDialog(getActivity());
-
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-				HttpPost httpMethod = new HttpPost(
-						"http://www.uwccf.ca/prayerbox/api/prayerlistproxy.php");
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
-						2);
-				nameValuePairs.add(new BasicNameValuePair("username",
-						MainTabbedFragmentActivity.mUser));
-				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = PrayerLoginActivity.client
-						.execute(httpMethod);
-				HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			getActivity().setProgressBarIndeterminateVisibility(true);
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			if(!result.isEmpty()){
-				PrayerParser pray_parser = new PrayerParser(result);
-				ArrayList<Prayer> prayer_list = pray_parser.parsePrayerList();
-				PrayerAdapter prayerAdapter = new PrayerAdapter(getActivity(),
-						prayer_list, true);
-				setListAdapter(prayerAdapter);
-				// Dialog.dismiss();
-				getActivity().setProgressBarIndeterminateVisibility(false);
-			}
-		}
 	}
 
 }

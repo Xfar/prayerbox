@@ -1,7 +1,9 @@
 package ca.uwccf.prayerbox.LogIn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,9 +13,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -25,6 +34,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerParser;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 
 public class PrayerResetPasswordActivity extends Activity {
 
@@ -82,52 +93,34 @@ public class PrayerResetPasswordActivity extends Activity {
 			return;
 		}
 		if(!error){
-			ResetPasswordTask passTask = new ResetPasswordTask(
-					getApplicationContext());
-			passTask.execute();
-		}
-	}
+			StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.forgot_password_url),
+			new Response.Listener<String>() {
+		        @Override
+		        public void onResponse(String result) {
+					Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(mEmailView.getWindowToken(), 0);
+					Intent intent = new Intent(getApplicationContext(),
+							PrayerLoginActivity.class);
+					startActivity(intent);
+					overridePendingTransition(0, 0);
+					finish();
+		        }
+		    },
+		    new Response.ErrorListener() {
+		        @Override
+		        public void onErrorResponse(VolleyError error) {
+		        }
+		    }){
+			    @Override
+			    protected Map<String, String> getParams() throws AuthFailureError {
 
-	public class ResetPasswordTask extends AsyncTask<Void, Void, String> {
-		private String result;
-		private Context mContext;
-
-		public ResetPasswordTask(Context context) {
-			mContext = context;
-		}
-
-		@Override
-		protected String doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-			try {
-				HttpPost httpMethod = new HttpPost(
-						"http://www.uwccf.ca/prayerbox/api/forgotpasswordproxy.php");
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
-						2);
-				nameValuePairs.add(new BasicNameValuePair("email", mEmail));
-				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = PrayerLoginActivity.client
-						.execute(httpMethod);
-				HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(final String success) {
-			Toast.makeText(mContext, success, Toast.LENGTH_LONG).show();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(mEmailView.getWindowToken(), 0);
-			Intent intent = new Intent(getApplicationContext(),
-					PrayerLoginActivity.class);
-			startActivity(intent);
-			overridePendingTransition(0, 0);
-			finish();
+			        Map<String, String> map = new HashMap<String, String>();
+			        map.put("email", mEmail);
+			        return map;
+			    }
+			};
+			PrayerLoginActivity.queue.add(request);
 		}
 	}
 }

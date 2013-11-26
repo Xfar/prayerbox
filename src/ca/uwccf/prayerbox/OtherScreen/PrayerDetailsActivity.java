@@ -1,19 +1,33 @@
 package ca.uwccf.prayerbox.OtherScreen;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.message.BasicNameValuePair;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
-import ca.uwccf.prayerbox.MainScreen.PrayerLogDataHandler;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
 import ca.uwccf.prayerbox.R.menu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,10 +87,29 @@ public class PrayerDetailsActivity extends Activity {
 			return true;
 		case R.id.details_pluspray:
 			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
-				PrayerLogDataHandler data = new PrayerLogDataHandler(
-						this.getApplicationContext(), true);
-				data.execute(prayer_id);
-				MainTabbedFragmentActivity.refresh();
+				StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.prayer_log_add_url),
+					new Response.Listener<String>() {
+				        @Override
+				        public void onResponse(String result) {
+							MainTabbedFragmentActivity.refresh();
+				        }
+				    },
+				    new Response.ErrorListener() {
+				        @Override
+				        public void onErrorResponse(VolleyError error) {
+				        }
+				    }){
+				    @Override
+				    protected Map<String, String> getParams() throws AuthFailureError {
+						SharedPreferences prefs = getApplicationContext().getSharedPreferences("account", 0);
+						String user = prefs.getString("user","");
+				        Map<String, String> map = new HashMap<String, String>();
+				        map.put("user", user);
+				        map.put("prayer_id", prayer_id);
+				        return map;
+				    }
+				};
+				PrayerLoginActivity.queue.add(request);
 				mIsAdd = false;
 				invalidateOptionsMenu();
 			}else{
@@ -85,10 +118,29 @@ public class PrayerDetailsActivity extends Activity {
 			return true;
 		case R.id.details_delete:
 			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
-				PrayerLogDataHandler data_2 = new PrayerLogDataHandler(
-						this.getApplicationContext(), false);
-				data_2.execute(prayer_id);
-				MainTabbedFragmentActivity.refresh();
+				StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.prayer_log_del_url),
+					new Response.Listener<String>() {
+				        @Override
+				        public void onResponse(String result) {
+							MainTabbedFragmentActivity.refresh();
+				        }
+				    },
+				    new Response.ErrorListener() {
+				        @Override
+				        public void onErrorResponse(VolleyError error) {
+				        }
+				    }){
+				    @Override
+				    protected Map<String, String> getParams() throws AuthFailureError {
+						SharedPreferences prefs = getApplicationContext().getSharedPreferences("account", 0);
+						String user = prefs.getString("user","");
+				        Map<String, String> map = new HashMap<String, String>();
+				        map.put("user", user);
+				        map.put("prayer_id", prayer_id);
+				        return map;
+				    }
+				};
+				PrayerLoginActivity.queue.add(request);
 				mIsAdd = true;
 				invalidateOptionsMenu();
 			}else{

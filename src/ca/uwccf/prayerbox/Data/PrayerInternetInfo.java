@@ -18,4 +18,5 @@ public class PrayerInternetInfo {
 	public void noInternetToast(Context context){
 		Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
 	}
+
 }

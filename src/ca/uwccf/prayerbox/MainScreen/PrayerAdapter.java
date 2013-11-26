@@ -1,6 +1,14 @@
 package ca.uwccf.prayerbox.MainScreen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.Prayer;
@@ -83,20 +91,58 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 							star.setChecked(false);
 							Toast.makeText(getContext().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
 						}
-							PrayerLogDataHandler data = new PrayerLogDataHandler(
-									context, true);
-							data.execute(item.prayer_id);
-							((MainTabbedFragmentActivity) context).refreshPrayerLog();
-							item.isStarred = true;
+						StringRequest request = new StringRequest(Request.Method.POST, getContext().getString(R.string.prayer_log_add_url),
+							new Response.Listener<String>() {
+						        @Override
+						        public void onResponse(String result) {
+									((MainTabbedFragmentActivity) context).refreshPrayerLog();
+						        }
+						    },
+						    new Response.ErrorListener() {
+						        @Override
+						        public void onErrorResponse(VolleyError error) {
+						        }
+						    }){
+						    @Override
+						    protected Map<String, String> getParams() throws AuthFailureError {
+								SharedPreferences prefs = getContext().getApplicationContext().getSharedPreferences("account", 0);
+								String user = prefs.getString("user","");
+						        Map<String, String> map = new HashMap<String, String>();
+						        map.put("user", user);
+						        map.put("prayer_id", item.prayer_id);
+						        return map;
+						    }
+						};
+						PrayerLoginActivity.queue.add(request);
+						item.isStarred = true;
 					} else {
 						if(!PrayerLoginActivity.intInfo.isNetworkAvailable(getContext().getApplicationContext())){
 							star.setChecked(true);
 							Toast.makeText(getContext().getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
 						}
-						PrayerLogDataHandler data = new PrayerLogDataHandler(
-								context, false);
-						data.execute(item.prayer_id);
-						((MainTabbedFragmentActivity) context).refreshPrayerLog();
+						StringRequest request = new StringRequest(Request.Method.POST, getContext().getString(R.string.prayer_log_del_url),
+							new Response.Listener<String>() {
+						        @Override
+						        public void onResponse(String result) {
+									((MainTabbedFragmentActivity) context).refreshPrayerLog();
+						        }
+						    },
+						    new Response.ErrorListener() {
+						        @Override
+						        public void onErrorResponse(VolleyError error) {
+						        }
+						    }){
+						    @Override
+						    protected Map<String, String> getParams() throws AuthFailureError {
+								SharedPreferences prefs = getContext().getApplicationContext().getSharedPreferences("account", 0);
+								String user = prefs.getString("user","");
+						        Map<String, String> map = new HashMap<String, String>();
+						        map.put("user", user);
+						        map.put("prayer_id", item.prayer_id);
+						        return map;
+						    }
+						};
+						PrayerLoginActivity.queue.add(request);
 						item.isStarred = false;
 					}
 				}

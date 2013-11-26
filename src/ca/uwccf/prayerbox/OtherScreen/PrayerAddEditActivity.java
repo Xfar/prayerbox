@@ -1,7 +1,9 @@
 package ca.uwccf.prayerbox.OtherScreen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,9 +13,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
-import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity.UserLoginTask;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
@@ -43,7 +51,6 @@ public class PrayerAddEditActivity extends Activity {
 	private String mPrayer;
 	private String mUser;
 	private EditText mPrayerView;
-	private AddEditTask mAddEditTask;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -94,8 +101,36 @@ public class PrayerAddEditActivity extends Activity {
 			focusView = mPrayerView;
 		} else {
 			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
-				mAddEditTask = new AddEditTask(getApplicationContext());
-				mAddEditTask.execute((Void) null);
+				StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.forgot_password_url),
+					new Response.Listener<String>() {
+				        @Override
+				        public void onResponse(String result) {
+							Intent intnt = new Intent(getApplicationContext(), MainTabbedFragmentActivity.class);
+							startActivity(intnt);
+							finish();
+				        }
+				    },
+				    new Response.ErrorListener() {
+				        @Override
+				        public void onErrorResponse(VolleyError error) {
+				        }
+				    }){
+					    @Override
+					    protected Map<String, String> getParams() throws AuthFailureError {
+
+					        Map<String, String> map = new HashMap<String, String>();
+							map.put("subjectInput",mSubject);
+							map.put("user",mUser);
+							map.put("requestInput",mPrayer);
+							map.put("type", "request");
+							CheckBox anon = (CheckBox) findViewById(R.id.anonCheck);
+							if (anon.isChecked()) {
+								map.put("anon", "1");
+							}
+					        return map;
+					    }
+					};
+				PrayerLoginActivity.queue.add(request);
 			}else{
 				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
 			}
@@ -103,57 +138,6 @@ public class PrayerAddEditActivity extends Activity {
 		}
 		focusView.requestFocus();
 		return false;
-	}
-
-	public class AddEditTask extends AsyncTask<Void, Void, String> {
-		private String result;
-		private Context mContext;
-
-		public AddEditTask(Context context) {
-			mContext = context;
-		}
-
-		@Override
-		protected String doInBackground(Void... params) {
-			try {
-				HttpPost httpMethod = new HttpPost(
-						"http://www.uwccf.ca/prayerbox/api/process.php");
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
-						3);
-				nameValuePairs.add(new BasicNameValuePair("subjectInput",
-						mSubject));
-				nameValuePairs.add(new BasicNameValuePair("user",
-						mUser));
-				nameValuePairs.add(new BasicNameValuePair("requestInput",
-						mPrayer));
-				nameValuePairs.add(new BasicNameValuePair("type", "request"));
-				CheckBox anon = (CheckBox) findViewById(R.id.anonCheck);
-				if (anon.isChecked()) {
-					nameValuePairs.add(new BasicNameValuePair("anon", "1"));
-				}
-				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = PrayerLoginActivity.client
-						.execute(httpMethod);
-				HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(final String success) {
-			Intent intnt = new Intent(mContext, MainTabbedFragmentActivity.class);
-			startActivity(intnt);
-			finish();
-		}
-
-		@Override
-		protected void onCancelled() {
-		}
 	}
 
 }

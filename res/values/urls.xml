@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_url">http://www.uwccf.ca/prayerbox/api/loginproxy.php</string>
+    <string name="forgot_password_url">http://www.uwccf.ca/prayerbox/api/forgotpasswordproxy.php</string>
+    <string name="sign_up_url">http://www.uwccf.ca/prayerbox/api/signupproxy.php</string>
+    <string name="prayer_url">http://www.uwccf.ca/prayerbox/api/prayerproxy.php</string>
+    <string name="prayer_feedback_url">http://www.uwccf.ca/prayerbox/api/feedback.php</string>
+    <string name="prayer_log_url">http://www.uwccf.ca/prayerbox/api/prayerlistproxy.php</string>
+    <string name="prayer_log_add_url">http://www.uwccf.ca/prayerbox/api/prayerlistaddproc.php</string>
+    <string name="prayer_log_del_url">http://www.uwccf.ca/prayerbox/api/prayerlistdelproc.php</string>
+    <string name ="prayer_log_del_mult_url">http://www.uwccf.ca/prayerbox/api/prayerlistdelmultproxy.php</string>
+    
+</resources>

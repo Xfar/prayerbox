@@ -3,6 +3,7 @@ package ca.uwccf.prayerbox.LogIn;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,6 +12,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.PrayerParser;
@@ -107,66 +114,48 @@ public class PrayerSignUpActivity extends Activity {
 			return;
 		}
 		if(!error){
-			UserSignUpTask userSignUp = new UserSignUpTask(getApplicationContext());
-			userSignUp.execute();
-		}
-	}
+			StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.forgot_password_url),
+			new Response.Listener<String>() {
+		        @Override
+		        public void onResponse(String result) {
+					PrayerParser pray_parser = new PrayerParser(result);
+					HashMap<String, String> accountInfo = pray_parser.parseLogin();
+					if (!accountInfo.get("error").isEmpty()) {
+						Toast.makeText(getApplicationContext(),
+								accountInfo.get("error"), Toast.LENGTH_LONG).show();
+					} else {
+						SharedPreferences sharedPref = getSharedPreferences(
+								ACCOUNT_SERVICE, MODE_PRIVATE);
+						SharedPreferences.Editor editor = sharedPref.edit();
+						editor.putString("user", accountInfo.get("user"));
+						editor.putString("user", accountInfo.get("email"));
+						editor.commit();
+						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+						Intent intent = new Intent(getApplicationContext(),
+								MainTabbedFragmentActivity.class);
+						startActivity(intent);
+						overridePendingTransition(0, 0);
+						finish();
+					}
+		        }
+		    },
+		    new Response.ErrorListener() {
+		        @Override
+		        public void onErrorResponse(VolleyError error) {
+		        }
+		    }){
+			    @Override
+			    protected Map<String, String> getParams() throws AuthFailureError {
 
-	public class UserSignUpTask extends AsyncTask<Void, Void, String> {
-		private Context mContext;
-		private String result;
-
-		public UserSignUpTask(Context context) {
-			mContext = context;
-		}
-
-		@Override
-		protected String doInBackground(Void... params) {
-			try {
-				HttpPost httpMethod = new HttpPost(
-						"http://www.uwccf.ca/prayerbox/api/signupproxy.php");
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
-						2);
-				nameValuePairs.add(new BasicNameValuePair("displayname",
-						mDisplayName));
-				nameValuePairs.add(new BasicNameValuePair("email", mEmail));
-				nameValuePairs
-						.add(new BasicNameValuePair("password", mPassword));
-				httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = PrayerLoginActivity.client
-						.execute(httpMethod);
-				HttpEntity entity = response.getEntity();
-				result = EntityUtils.toString(entity);
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(final String result) {
-			PrayerParser pray_parser = new PrayerParser(result);
-			HashMap<String, String> accountInfo = pray_parser.parseLogin();
-			if (!accountInfo.get("error").isEmpty()) {
-				Toast.makeText(getApplicationContext(),
-						accountInfo.get("error"), Toast.LENGTH_LONG).show();
-			} else {
-				SharedPreferences sharedPref = mContext.getSharedPreferences(
-						ACCOUNT_SERVICE, MODE_PRIVATE);
-				SharedPreferences.Editor editor = sharedPref.edit();
-				editor.putString("user", accountInfo.get("user"));
-				editor.putString("user", accountInfo.get("email"));
-				editor.commit();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
-				Intent intent = new Intent(getApplicationContext(),
-						MainTabbedFragmentActivity.class);
-				startActivity(intent);
-				overridePendingTransition(0, 0);
-				finish();
-			}
+			        Map<String, String> map = new HashMap<String, String>();
+			        map.put("displayname", mDisplayName);
+			        map.put("email",mEmail);
+			        map.put("password", mPassword);
+			        return map;
+			    }
+			};
+			PrayerLoginActivity.queue.add(request);
 		}
 	}
 }
