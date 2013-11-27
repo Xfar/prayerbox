@@ -44,51 +44,61 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-		setContentView(R.layout.activity_prayer_list);
-		// Initialization
-		SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE,
-				MODE_PRIVATE);
-		mUser = prefs.getString("user", "");
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
-		intInfo = new PrayerInternetInfo();
-
-		mAdapter = new PrayerListTabsPagerAdapter(getSupportFragmentManager());
-
-		viewPager.setAdapter(mAdapter);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		// Adding Tabs
-		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name)
-					.setTabListener(this));
-		}
-
-		/**
-		 * on swiping the viewpager make respective tab selected
-		 * */
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-				actionBar.setSelectedNavigationItem(position);
-
-				if (newItemsStarred) {
-					refreshPrayerLog();
+		try{
+				requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		
+				setContentView(R.layout.activity_prayer_list);
+				// Initialization
+				SharedPreferences prefs = this.getSharedPreferences(ACCOUNT_SERVICE,
+						MODE_PRIVATE);
+				if(prefs!=null){
+					mUser = prefs.getString("user", "");
 				}
-			}
+				viewPager = (ViewPager) findViewById(R.id.pager);
+				actionBar = getActionBar();
+				intInfo = new PrayerInternetInfo();
+		
+				mAdapter = new PrayerListTabsPagerAdapter(getSupportFragmentManager());
+		
+				viewPager.setAdapter(mAdapter);
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+				// Adding Tabs
+				for (String tab_name : tabs) {
+					actionBar.addTab(actionBar.newTab().setText(tab_name)
+							.setTabListener(this));
+				}
+		
+				/**
+				 * on swiping the viewpager make respective tab selected
+				 * */
+				viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		
+					@Override
+					public void onPageSelected(int position) {
+						actionBar.setSelectedNavigationItem(position);
+		
+						if (newItemsStarred) {
+							refreshPrayerLog();
+						}
+					}
 
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-			}
+					@Override
+					public void onPageScrollStateChanged(int arg0) {
+						// TODO Auto-generated method stub
+						
+					}
 
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-			}
-		});
+					@Override
+					public void onPageScrolled(int arg0, float arg1, int arg2) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override

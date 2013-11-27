@@ -63,6 +63,15 @@
         <activity android:name=".LogIn.PrayerResetPasswordActivity"
                   android:windowSoftInputMode="stateVisible|adjustPan"
                   android:screenOrientation="portrait"></activity>
+        <receiver android:name="ca.uwccf.prayerbox.Data.PrayerWidgetProvider" android:label="PrayerWidget" android:exported="true">
+		    <intent-filter>
+		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		    </intent-filter>
+		    <meta-data android:name="android.appwidget.provider"
+		               android:resource="@xml/prayer_widget_info" />
+		</receiver>
+		<service android:name="ca.uwccf.prayerbox.Data.PrayerWidgetService"
+					android:permission="android.permission.BIND_REMOTEVIEWS" />
      </application>
 
 </manifest>
