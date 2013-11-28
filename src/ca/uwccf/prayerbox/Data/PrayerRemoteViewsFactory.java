@@ -32,13 +32,14 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 	private static ArrayList<Prayer> mPrayerItems = new ArrayList<Prayer>();
-	   private int mAppWidgetId;
+	private int mAppWidgetId;
 	private Context mContext;
 	
 	public PrayerRemoteViewsFactory(Context context, Intent intent){
@@ -67,7 +68,18 @@ public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 	@Override
 	public RemoteViews getViewAt(int position) {
 	    RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_prayer_list_item);
-	    rv.setTextViewText(R.id.subject, mPrayerItems.get(position).subject);
+	    Prayer pitem = mPrayerItems.get(position);
+	    rv.setTextViewText(R.id.label, pitem.subject);
+	    rv.setTextViewText(R.id.request, pitem.request);
+	    rv.setTextViewText(R.id.author, pitem.author);
+	    rv.setTextViewText(R.id.date, pitem.date);
+        Bundle extras = new Bundle();
+        extras.putString(PrayerWidgetProvider.EXTRA_ITEM, pitem.prayer_id);
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtras(extras);
+        // Make it possible to distinguish the individual on-click
+        // action of a given item
+        rv.setOnClickFillInIntent(R.id.widget_item, fillInIntent);
 	    return rv;
 	}
 
