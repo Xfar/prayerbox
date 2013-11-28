@@ -37,6 +37,16 @@ public class PrayerDetailsActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		SharedPreferences prefs = getSharedPreferences(ACCOUNT_SERVICE, MODE_PRIVATE);
+		if(!prefs.contains("user")){
+			Intent intent = new Intent(getApplicationContext(),
+					PrayerLoginActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
+			finish();
+		}
 		setContentView(R.layout.activity_prayer_details);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);

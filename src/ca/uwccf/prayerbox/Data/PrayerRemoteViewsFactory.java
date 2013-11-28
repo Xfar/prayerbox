@@ -40,6 +40,7 @@ import android.widget.RemoteViewsService;
 public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 	private static ArrayList<Prayer> mPrayerItems = new ArrayList<Prayer>();
 	private int mAppWidgetId;
+	//private static RequestQueue queue;
 	private Context mContext;
 	
 	public PrayerRemoteViewsFactory(Context context, Intent intent){
@@ -74,7 +75,11 @@ public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 	    rv.setTextViewText(R.id.author, pitem.author);
 	    rv.setTextViewText(R.id.date, pitem.date);
         Bundle extras = new Bundle();
-        extras.putString(PrayerWidgetProvider.EXTRA_ITEM, pitem.prayer_id);
+        extras.putString(PrayerWidgetProvider.SUBJECT, pitem.subject);
+        extras.putString(PrayerWidgetProvider.REQUEST, pitem.request);
+        extras.putString(PrayerWidgetProvider.DATE, pitem.date);
+        extras.putString(PrayerWidgetProvider.PRAYER_ID, pitem.prayer_id);
+        extras.putString(PrayerWidgetProvider.AUTHOR, pitem.author);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         // Make it possible to distinguish the individual on-click
@@ -103,10 +108,6 @@ public void onCreate() {
 	        }
 	    };
 	    thread.start();
-	    try {
-	        thread.join();
-	    } catch (InterruptedException e) {
-	    }
 	}
 	public void populatePrayerItems(){
 		new GetData().execute("");

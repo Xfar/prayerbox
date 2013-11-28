@@ -1,6 +1,7 @@
 package ca.uwccf.prayerbox.Data;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.OtherScreen.PrayerDetailsActivity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -15,7 +16,11 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
 	RemoteViews view;
 	
     public static final String TOAST_ACTION = "com.example.android.stackwidget.TOAST_ACTION";
-    public static final String EXTRA_ITEM = "com.example.android.stackwidget.EXTRA_ITEM";
+    public static final String SUBJECT = "ca.uwccf.prayerbox.subject";
+    public static final String REQUEST = "ca.uwccf.prayerbox.request";
+    public static final String DATE = "ca.uwccf.prayerbox.date";
+    public static final String AUTHOR = "ca.uwccf.prayerbox.author";
+    public static final String PRAYER_ID = "ca.uwccf.prayerbox.prayer_id";
 
 
     // Called when the BroadcastReceiver receives an Intent broadcast.
@@ -27,8 +32,24 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
         if (intent.getAction().equals(TOAST_ACTION)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-            String viewIndex = intent.getStringExtra(EXTRA_ITEM);
-            Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
+           
+            String subject = intent.getStringExtra(SUBJECT);
+            String request = intent.getStringExtra(REQUEST);
+            String date = intent.getStringExtra(DATE);
+            String author = intent.getStringExtra(AUTHOR);
+            String prayer_id = intent.getStringExtra(PRAYER_ID);
+            
+    		Intent nextScreen = new Intent(context,
+    				PrayerDetailsActivity.class);
+
+    		// Sending data to another Activity
+    		nextScreen.putExtra("subject", subject);
+    		nextScreen.putExtra("request", request);
+    		nextScreen.putExtra("author", author);
+    		nextScreen.putExtra("date", date);
+    		nextScreen.putExtra("prayer_id", prayer_id);
+    		nextScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		context.startActivity(nextScreen);
         }
         super.onReceive(context, intent);
     }
