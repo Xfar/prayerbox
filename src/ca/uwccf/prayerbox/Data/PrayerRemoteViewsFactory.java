@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -40,11 +41,12 @@ import android.widget.RemoteViewsService;
 public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 	private static ArrayList<Prayer> mPrayerItems = new ArrayList<Prayer>();
 	private int mAppWidgetId;
-	//private static RequestQueue queue;
+	private static RequestQueue queue;
 	private Context mContext;
 	
 	public PrayerRemoteViewsFactory(Context context, Intent intent){
 		mContext = context;
+		 queue = Volley.newRequestQueue(mContext);
        mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 	}
@@ -110,7 +112,24 @@ public void onCreate() {
 	    thread.start();
 	}
 	public void populatePrayerItems(){
-		new GetData().execute("");
+		StringRequest request = new StringRequest(Request.Method.POST, "http://prayer.uwccf.ca/api/prayerproxy.php",
+				new Response.Listener<String>() {
+			        @Override
+			        public void onResponse(String result) {
+						PrayerParser pray_parser = new PrayerParser(result);
+						mPrayerItems = pray_parser.parsePrayerList();
+						AppWidgetManager widgetManager = AppWidgetManager.getInstance(mContext);
+						widgetManager.notifyAppWidgetViewDataChanged(widgetManager.getAppWidgetIds(
+		                        new ComponentName(mContext, PrayerWidgetProvider.class)), R.id.widget_plist);
+			        }
+			    },
+			    new Response.ErrorListener() {
+			        @Override
+			        public void onErrorResponse(VolleyError error) {
+			        }
+			    }){
+			};
+			queue.add(request);
 			
 	}
 

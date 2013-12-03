@@ -50,6 +50,7 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
     		nextScreen.putExtra("prayer_id", prayer_id);
     		nextScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     		context.startActivity(nextScreen);
+    		mgr.notifyAppWidgetViewDataChanged(appWidgetId, R.layout.widget_prayer_list);
         }
         super.onReceive(context, intent);
     }
@@ -87,8 +88,7 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
             PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setPendingIntentTemplate(R.id.widget_plist, toastPendingIntent);
-	        
-	        appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);   
+	        appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
 	    }
 	    super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
