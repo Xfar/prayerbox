@@ -16,5 +16,6 @@
     <string name="send_feedback">Send Feedback</string>
     <string name="anonymous">Anonymous</string>
     <string name="no_internet">Please check your internet connection and try again.</string>
+    <string name="prayer_widget">Prayer List</string>
 
 </resources>

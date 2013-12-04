@@ -48,9 +48,9 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
     		nextScreen.putExtra("author", author);
     		nextScreen.putExtra("date", date);
     		nextScreen.putExtra("prayer_id", prayer_id);
+    		nextScreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
     		nextScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     		context.startActivity(nextScreen);
-    		mgr.notifyAppWidgetViewDataChanged(appWidgetId, R.layout.widget_prayer_list);
         }
         super.onReceive(context, intent);
     }
