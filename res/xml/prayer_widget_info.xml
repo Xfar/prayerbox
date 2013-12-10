@@ -5,5 +5,5 @@
   android:initialLayout="@layout/widget_prayer_list"
   android:autoAdvanceViewId="@+id/widget_plist"
   android:previewImage="@drawable/prayerpig"
-  android:resizeMode="vertical"
+  android:resizeMode="vertical|horizontal"
 />

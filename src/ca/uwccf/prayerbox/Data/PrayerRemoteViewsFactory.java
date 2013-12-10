@@ -52,19 +52,16 @@ public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 	}
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mPrayerItems.size();
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public RemoteViews getLoadingView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -82,6 +79,7 @@ public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         extras.putString(PrayerWidgetProvider.DATE, pitem.date);
         extras.putString(PrayerWidgetProvider.PRAYER_ID, pitem.prayer_id);
         extras.putString(PrayerWidgetProvider.AUTHOR, pitem.author);
+        extras.putBoolean(PrayerWidgetProvider.ISStarred, pitem.isStarred);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         // Make it possible to distinguish the individual on-click
@@ -92,25 +90,19 @@ public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
 	@Override
 	public int getViewTypeCount() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@Override
-public void onCreate() {
-	    Thread thread = new Thread() {
-	        public void run() {
-	            populatePrayerItems();
-	        }
-	    };
-	    thread.start();
+	public void onCreate() {
+        populatePrayerItems();
 	}
+	
 	public void populatePrayerItems(){
 		StringRequest request = new StringRequest(Request.Method.POST, "http://prayer.uwccf.ca/api/prayerproxy.php",
 				new Response.Listener<String>() {
@@ -135,16 +127,6 @@ public void onCreate() {
 
 	@Override
 	public void onDataSetChanged() {
-	    Thread thread = new Thread() {
-	        public void run() {
-	            populatePrayerItems();
-	        }
-	    };
-	    thread.start();
-	    try {
-	        thread.join();
-	    } catch (InterruptedException e) {
-	    }
 	}
 
 	@Override
@@ -152,37 +134,5 @@ public void onCreate() {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	  private class GetData extends AsyncTask<String, Void, String> {
-		     private String result;
-		 
-		     @Override
-		     protected String doInBackground(String... params) {
-		       DefaultHttpClient client = new DefaultHttpClient();
-		       HttpPost httpMethod = new HttpPost(
-		           "http://www.uwccf.ca/prayerbox/api/prayerproxy.php");
-		 
-		       result = null;
-		       try {
-		         HttpResponse response = client.execute(httpMethod);
-		         HttpEntity entity = response.getEntity();
-		         result = EntityUtils.toString(entity);
-		         return result;
-		       } catch (Exception e) {
-		         e.printStackTrace();
-		       }
-		       return null;
-		     }
-		 
-		     @Override
-		     protected void onPreExecute() {
-		     }
-		 
-		     @Override
-		     protected void onPostExecute(String result) {
-		       PrayerParser pray_parser = new PrayerParser(result);
-		       mPrayerItems = pray_parser.parsePrayerList();
-		     }
-		   }
 
 }

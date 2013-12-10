@@ -30,7 +30,6 @@
   android:layout_marginLeft="3dp"
   android:fastScrollAlwaysVisible="false"
   android:fastScrollEnabled="false"
-  android:scrollbars="none" 
 />
     <TextView
         android:id="@+id/empty_view"

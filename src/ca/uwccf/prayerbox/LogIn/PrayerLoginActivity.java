@@ -87,6 +87,10 @@ public class PrayerLoginActivity extends Activity {
 		if (sharedPref.contains("session_id")) {
 			Intent intent = new Intent(getApplicationContext(),
 					MainTabbedFragmentActivity.class);
+			Bundle extras = getIntent().getExtras();
+			if(extras!=null){
+				intent.putExtras(extras);
+			}
 			startActivity(intent);
 			overridePendingTransition(0, 0);
 			finish();

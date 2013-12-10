@@ -1,6 +1,8 @@
 package ca.uwccf.prayerbox.Data;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
+import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import ca.uwccf.prayerbox.OtherScreen.PrayerDetailsActivity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -21,6 +23,7 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
     public static final String DATE = "ca.uwccf.prayerbox.date";
     public static final String AUTHOR = "ca.uwccf.prayerbox.author";
     public static final String PRAYER_ID = "ca.uwccf.prayerbox.prayer_id";
+    public static final String ISStarred = "ca.uwccf.prayerbox.isStarred";
 
 
     // Called when the BroadcastReceiver receives an Intent broadcast.
@@ -38,9 +41,9 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
             String date = intent.getStringExtra(DATE);
             String author = intent.getStringExtra(AUTHOR);
             String prayer_id = intent.getStringExtra(PRAYER_ID);
-            
+            Boolean starred = intent.getBooleanExtra(ISStarred, false);
     		Intent nextScreen = new Intent(context,
-    				PrayerDetailsActivity.class);
+    				PrayerLoginActivity.class);
 
     		// Sending data to another Activity
     		nextScreen.putExtra("subject", subject);
@@ -48,8 +51,9 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
     		nextScreen.putExtra("author", author);
     		nextScreen.putExtra("date", date);
     		nextScreen.putExtra("prayer_id", prayer_id);
-    		nextScreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    		nextScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		nextScreen.putExtra("isStarred", starred);
+    		nextScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    		nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     		context.startActivity(nextScreen);
         }
         super.onReceive(context, intent);

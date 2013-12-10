@@ -15,6 +15,7 @@ import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.PrayerInternetInfo;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.OtherScreen.PrayerAddEditActivity;
+import ca.uwccf.prayerbox.OtherScreen.PrayerDetailsActivity;
 import ca.uwccf.prayerbox.OtherScreen.PrayerFeedbackActivity;
 
 public class MainTabbedFragmentActivity extends FragmentActivity implements
@@ -40,10 +41,20 @@ public class MainTabbedFragmentActivity extends FragmentActivity implements
 		((PrayerListFragment) mAdapter.getItem(0)).refresh();
 		((PrayerLogFragment) mAdapter.getItem(1)).refresh();
 	}
-
+	@Override
+	protected void onResume(){
+		super.onResume();		
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Bundle extras = getIntent().getExtras();
+		if(extras!=null && extras.containsKey("prayer_id")){
+			Intent i = new Intent(getApplicationContext(), PrayerDetailsActivity.class);
+			i.putExtras(extras);
+			startActivity(i);
+			overridePendingTransition(0, 0);
+		}
 		try{
 				requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		

@@ -47,6 +47,7 @@
             android:layout_below="@id/label"
             android:gravity="left"
             android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="10sp"
             android:textStyle="italic" />
 

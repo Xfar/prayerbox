@@ -29,7 +29,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.uwccf.prayerbox.PrayerListActivity" />
+                android:value="ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity" />
         </activity>
         <activity android:name="ca.uwccf.prayerbox.LogIn.PrayerLoginActivity"
             	  android:label="@string/app_name"
@@ -44,7 +44,7 @@
                   android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.uwccf.prayerbox.PrayerListActivity" />
+                android:value="ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity" />
         </activity>
         <activity android:name="ca.uwccf.prayerbox.OtherScreen.PrayerFeedbackActivity"
             	  android:screenOrientation="portrait"
