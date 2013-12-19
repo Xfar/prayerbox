@@ -13,6 +13,7 @@
     
     <application
         android:allowBackup="true"
+        android:name="ca.uwccf.prayerbox.Data.PrayerApplication"
         android:icon="@drawable/prayerpig"
         android:label="@string/app_name"
         android:theme="@style/PrayerBoxTheme">

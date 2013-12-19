@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.Prayer;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.OtherScreen.PrayerDetailsActivity;
@@ -128,7 +129,7 @@ public class PrayerLogFragment extends ListFragment {
 							        return map;
 							    }
 							};
-						PrayerLoginActivity.queue.add(request);
+						PrayerApplication.getInstance().addToRequestQueue(request);
 						mode.finish();
 					} else {
 						PrayerLoginActivity.intInfo.noInternetToast(getActivity().getApplicationContext());
@@ -190,7 +191,7 @@ public class PrayerLogFragment extends ListFragment {
 			        return map;
 			    }
 			};
-			PrayerLoginActivity.queue.add(request);
+			PrayerApplication.getInstance().addToRequestQueue(request);
 		}
 	}
 

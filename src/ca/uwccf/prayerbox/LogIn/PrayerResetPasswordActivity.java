@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 
@@ -120,7 +121,7 @@ public class PrayerResetPasswordActivity extends Activity {
 			        return map;
 			    }
 			};
-			PrayerLoginActivity.queue.add(request);
+			PrayerApplication.getInstance().addToRequestQueue(request);
 		}
 	}
 }
