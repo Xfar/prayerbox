@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
@@ -119,7 +120,7 @@ public class PrayerDetailsActivity extends Activity {
 				        return map;
 				    }
 				};
-				PrayerLoginActivity.queue.add(request);
+				PrayerApplication.getInstance().addToRequestQueue(request);
 				mIsAdd = false;
 				invalidateOptionsMenu();
 			}else{
@@ -150,7 +151,7 @@ public class PrayerDetailsActivity extends Activity {
 				        return map;
 				    }
 				};
-				PrayerLoginActivity.queue.add(request);
+				PrayerApplication.getInstance().addToRequestQueue(request);
 				mIsAdd = true;
 				invalidateOptionsMenu();
 			}else{

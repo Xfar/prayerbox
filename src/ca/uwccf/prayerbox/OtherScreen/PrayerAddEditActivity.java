@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
@@ -130,7 +131,7 @@ public class PrayerAddEditActivity extends Activity {
 					        return map;
 					    }
 					};
-				PrayerLoginActivity.queue.add(request);
+				PrayerApplication.getInstance().addToRequestQueue(request);
 			}else{
 				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
 			}

@@ -1,26 +1,8 @@
 package ca.uwccf.prayerbox.Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
 import ca.uwccf.prayerbox.R;
-import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
-import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
-import ca.uwccf.prayerbox.MainScreen.PrayerAdapter;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,21 +14,17 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 	private static ArrayList<Prayer> mPrayerItems = new ArrayList<Prayer>();
 	private int mAppWidgetId;
-	private static RequestQueue queue;
 	private Context mContext;
 	
 	public PrayerRemoteViewsFactory(Context context, Intent intent){
 		mContext = context;
-		 queue = Volley.newRequestQueue(mContext);
        mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 	}
@@ -121,7 +99,7 @@ public class PrayerRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 			        }
 			    }){
 			};
-			queue.add(request);
+			PrayerApplication.getInstance().addToRequestQueue(request);
 			
 	}
 

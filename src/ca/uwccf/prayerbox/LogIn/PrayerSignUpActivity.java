@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 import android.app.Activity;
@@ -155,7 +156,7 @@ public class PrayerSignUpActivity extends Activity {
 			        return map;
 			    }
 			};
-			PrayerLoginActivity.queue.add(request);
+			PrayerApplication.getInstance().addToRequestQueue(request);
 		}
 	}
 }

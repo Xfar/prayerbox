@@ -46,6 +46,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.uwccf.prayerbox.R;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.Data.PrayerInternetInfo;
 import ca.uwccf.prayerbox.Data.PrayerParser;
 import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
@@ -57,7 +58,6 @@ import ca.uwccf.prayerbox.MainScreen.MainTabbedFragmentActivity;
 public class PrayerLoginActivity extends Activity {
 	public static DefaultHttpClient client;
 	public static PrayerInternetInfo intInfo;
-	public static RequestQueue queue;
 
 	// Values for email and password at the time of the login attempt.
 	private String mUser;
@@ -73,7 +73,6 @@ public class PrayerLoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		queue = Volley.newRequestQueue(this);
 		SharedPreferences sharedPref = this.getSharedPreferences(
 				ACCOUNT_SERVICE, MODE_PRIVATE);
 		client = new DefaultHttpClient();
@@ -260,7 +259,7 @@ public class PrayerLoginActivity extends Activity {
 				        return map;
 				    }
 				};
-				queue.add(request);
+				PrayerApplication.getInstance().addToRequestQueue(request);
 			}else{
 				Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_LONG).show();
 				showProgress(false);

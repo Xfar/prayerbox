@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import ca.uwccf.prayerbox.R;
 import ca.uwccf.prayerbox.Data.Prayer;
+import ca.uwccf.prayerbox.Data.PrayerApplication;
 import ca.uwccf.prayerbox.LogIn.PrayerLoginActivity;
 import ca.uwccf.prayerbox.R.id;
 import ca.uwccf.prayerbox.R.layout;
@@ -113,7 +114,7 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 						        return map;
 						    }
 						};
-						PrayerLoginActivity.queue.add(request);
+						PrayerApplication.getInstance().addToRequestQueue(request);
 						item.isStarred = true;
 					} else {
 						if(!PrayerLoginActivity.intInfo.isNetworkAvailable(getContext().getApplicationContext())){
@@ -142,7 +143,7 @@ public class PrayerAdapter extends ArrayAdapter<Prayer> {
 						        return map;
 						    }
 						};
-						PrayerLoginActivity.queue.add(request);
+						PrayerApplication.getInstance().addToRequestQueue(request);
 						item.isStarred = false;
 					}
 				}
