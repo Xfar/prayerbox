@@ -9,5 +9,6 @@
     <string name="prayer_log_add_url">http://www.uwccf.ca/prayerbox/api/prayerlistaddproc.php</string>
     <string name="prayer_log_del_url">http://www.uwccf.ca/prayerbox/api/prayerlistdelproc.php</string>
     <string name ="prayer_log_del_mult_url">http://www.uwccf.ca/prayerbox/api/prayerlistdelmultproxy.php</string>
+    <string name="submit_prayer">http://www.uwccf.ca/prayerbox/api/process.php</string>
     
 </resources>

@@ -102,7 +102,7 @@ public class PrayerAddEditActivity extends Activity {
 			focusView = mPrayerView;
 		} else {
 			if(PrayerLoginActivity.intInfo.isNetworkAvailable(getApplicationContext())){
-				StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.forgot_password_url),
+				StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.submit_prayer),
 					new Response.Listener<String>() {
 				        @Override
 				        public void onResponse(String result) {

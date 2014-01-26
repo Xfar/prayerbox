@@ -115,7 +115,7 @@ public class PrayerSignUpActivity extends Activity {
 			return;
 		}
 		if(!error){
-			StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.forgot_password_url),
+			StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.sign_up_url),
 			new Response.Listener<String>() {
 		        @Override
 		        public void onResponse(String result) {
